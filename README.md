@@ -7,9 +7,9 @@ Ella Hanson, ehanson07@calpoly.edu
 
 
 Proposal:  
-  Our idea is to create a backend api for a recipe blog that will  
-  allow user to log what they cook. Users can keep through their own  
+  Our project propostal is to create a backend API for a recipe sharing blog that will  
+  allow users to log what they cook: kind of like a Facebook for recipes. Users can access their own  
   diary of recipies as well as look through others posted recipes.   
-  There would then be a system to leave ratings and comments on any   
-  recipe they make. Searching through recipes would include being  
-  able to filter through the recipes by ingredient, time needed, etc.   
+  There would also be a system to leave ratings and comments on any   
+  recipes they view in their feed. Searching through recipes would include being  
+  able to filter through the recipes by type (e.g. breakfast, lunch, dinner, dessert), time needed, level (e.g. beginner-friendly), dietary restrictions, etc.   
