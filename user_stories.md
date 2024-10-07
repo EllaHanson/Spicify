@@ -16,26 +16,26 @@ User Stories:
 
 Exceptions
 1. Exception: If no recipes are found for a search  
-      Print a “No Recipe, try different search” response  
+      > Print a “No Recipe, try different search” response  
 2. Exception: No comment put in comment response  
-      Reprompt user to enter comment   
+      > Reprompt user to enter comment   
 3. Exception: Possible bots posting too many/irrelevant recipes  
-      Authenticator for when posting a certain amount in a small time frame  
+      > Authenticator for when posting a certain amount in a small time frame  
 4. Exception: Trying to post an incomplete recipe (ex not including measurements or instructions)  
-      Prompt the user to complete filling out recipe while letting user know what they need to add  
+      > Prompt the user to complete filling out recipe while letting user know what they need to add  
 5. Exception: Checking that tags for recipes actually match the recipe contents   
-      Cross check with a table   
+      > Cross check with a table   
 6. Exceptions: Checking for inappropriate comments in the comment section of recipes.  
-      Moderator/system to flag inappropriate comments and send a warning/possible suspension to the user  
+      > Moderator/system to flag inappropriate comments and send a warning/possible suspension to the user  
 7. Exception: Wrong password when trying to log in  
-      Option to reset password  
+      > Option to reset password  
 8. Exception: Email not registered with site  
-      Option to either try again or create account  
+      > Option to either try again or create account  
 9. Exception: Incorrect entering the recipe  
-      Have edit button for all recipes that users have uploaded  
+      > Have edit button for all recipes that users have uploaded  
 10. Exception: uploading a recipe that’s exactly the same  
-      Send them to already existing recipe  
+      > Send them to already existing recipe  
 11. Exception: user tries to look at favorites when they don’t have anything  
-      Print that they don’t have any favorites and suggest some popular recipes   
+      > Print that they don’t have any favorites and suggest some popular recipes   
 12. Exception: User is searching by calories and the calories of the recipe isn’t fully known  
-      Allow people to toggle whether they search by calories or not  
+      > Allow people to toggle whether they search by calories or not  
