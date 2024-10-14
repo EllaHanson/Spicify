@@ -70,7 +70,21 @@
    "success": "boolean"
    }
    ```
-**6. Search User (GET)**  
+**6. Get Favorites**  
+   Provide list of the users favorited recipes.
+   ```json
+   {
+   "user_id": "int"
+   }
+   ```
+   Response:  
+   ```json
+   {
+   "user_favs": ["recipe_id": "int"]
+   }
+   ```
+
+**7. Search User (GET)**  
    Search for specific username  
    Request:  
    ```json
@@ -85,7 +99,7 @@
    "users_result": ["usernames": "int"]  
    }
    ```
-**7. Edit Profile**  
+**8. Edit Profile**  
    Change username, tags, about me, etc  
    Request:  
    ```json
@@ -101,7 +115,7 @@
    "success": "boolean"  
    }
    ```
-**8. Logout**  
+**9. Logout**  
    Response:  
    ```json
    {  
