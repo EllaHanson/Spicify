@@ -4,7 +4,7 @@
    &nbsp;&nbsp;&nbsp;&nbsp;"username": "string",  
    &nbsp;&nbsp;&nbsp;&nbsp;"email": "string",  
    &nbsp;&nbsp;&nbsp;&nbsp;"password": "string" 
-   }  
+   }    
    Response:  
   {  
    &nbsp;&nbsp;&nbsp;&nbsp;"user_id": "string" /* Returns a unique user_id */  
@@ -15,7 +15,7 @@
    {  
    &nbsp;&nbsp;&nbsp;&nbsp;"username": "string",  
    &nbsp;&nbsp;&nbsp;&nbsp;"password": "string",  
-   }  
+   }    
    Response:  
    {  
    &nbsp;&nbsp;&nbsp;&nbsp;"success": boolean  
@@ -29,7 +29,7 @@
    &nbsp;&nbsp;&nbsp;&nbsp;"time": "int",  
    &nbsp;&nbsp;&nbsp;&nbsp;"author_id": "int",  
    &nbsp;&nbsp;&nbsp;&nbsp;"is_public": "boolean"  
-   }  
+   }    
    Response:
    {
    &nbsp;&nbsp;&nbsp;&nbsp;"success": "boolean"
@@ -41,13 +41,13 @@
    &nbsp;&nbsp;&nbsp;&nbsp;“recipe_type”: “string”,  
    &nbsp;&nbsp;&nbsp;&nbsp;“preferences”: “string”,  
    &nbsp;&nbsp;&nbsp;&nbsp;“dietary_restrictions”: string”,  
-   }  
+   }    
 **5. Favorite Recipes**  
    Save a recipe for later in the favorites tab  
    Request:  
    {  
    &nbsp;&nbsp;&nbsp;&nbsp;“recipe_id”: “string”,  
-   }  
+   }    
    Response:  
    {  
    &nbsp;&nbsp;&nbsp;&nbsp;“success”: boolean  
@@ -58,7 +58,7 @@
    {  
     &nbsp;&nbsp;&nbsp;&nbsp;“username”: string  
     &nbsp;&nbsp;&nbsp;&nbsp;“tag”: ["prefrence": "string"]  
-   }  
+   }    
    Response:  
    {  
     &nbsp;&nbsp;&nbsp;&nbsp;“users_result”: ["usernames": "int"]  
@@ -70,7 +70,7 @@
    &nbsp;&nbsp;&nbsp;&nbsp;“username”: “string”,  
    &nbsp;&nbsp;&nbsp;&nbsp;“chef_level”: “string”,  
    &nbsp;&nbsp;&nbsp;&nbsp;“about_me”: “string”  
-   }  
+   }    
    Response:  
    {  
    &nbsp;&nbsp;&nbsp;&nbsp;"success": "boolean"  
