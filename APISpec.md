@@ -34,7 +34,7 @@
    ```json
    {  
    "title": "string",  
-   "ingredients": [ingredient_type: "string", "measurement_type": "string", “quantity”: "int"],  
+   "ingredients": [{ingredient_type: "string", "measurement_type": "string", “quantity”: "int"}],  
    "time": "int",  
    "author_id": "int",  
    "is_public": "boolean"  
