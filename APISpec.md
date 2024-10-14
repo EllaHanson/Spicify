@@ -1,9 +1,9 @@
 1. User Signup (POST)  
    Request:  
    {  
-   &nbsp;&nbsp;"username": "string",  
-   &nbsp;&nbsp;"email": "string"  
-   &nbsp;&nbsp;"password": "string"  
+   &nbsp;&nbsp;&nbsp;&nbsp;"username": "string",  
+   &nbsp;&nbsp;&nbsp;&nbsp;"email": "string",  
+   &nbsp;&nbsp;&nbsp;&nbsp;"password": "string" 
    }  
    Response:  
   {  
