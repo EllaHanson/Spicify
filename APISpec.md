@@ -52,7 +52,7 @@
    ```json
    {
    "recipe_type": "string",  
-   "preferences": "string",  
+   "ingredients": ["string"],  
    "dietary_restrictions": "string"
    }
    ```
