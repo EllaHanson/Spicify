@@ -11,15 +11,15 @@
    }
      
 **2. Login (POST)**  
-   Request:
+   Request:  
    {  
-   &nbsp;&nbsp;&nbsp;&nbsp;"username": "string",
-   &nbsp;&nbsp;&nbsp;&nbsp;"password": "string",
+   &nbsp;&nbsp;&nbsp;&nbsp;"username": "string",  
+   &nbsp;&nbsp;&nbsp;&nbsp;"password": "string",  
    }  
-   Response:
-   {
-   &nbsp;&nbsp;&nbsp;&nbsp;"success": boolean
-   }
+   Response:  
+   {  
+   &nbsp;&nbsp;&nbsp;&nbsp;"success": boolean  
+   }  
 **3. Recipe Posting (POST)**  
    Add Recipe to personal or social blog
    Request:
