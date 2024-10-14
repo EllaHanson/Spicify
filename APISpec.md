@@ -15,8 +15,8 @@
    ```
      
 **2. Login (POST)**  
-   ```json
    Request:  
+   ```json
    {  
    "username": "string",  
    "password": "string",  
