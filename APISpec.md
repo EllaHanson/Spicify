@@ -51,9 +51,9 @@
    Request:
    ```json
    {
-   “recipe_type”: “string”,  
-   “preferences”: “string”,  
-   “dietary_restrictions”: "string”
+   "recipe_type": "string",  
+   "preferences": "string",  
+   "dietary_restrictions": "string”
    }
    ```
 **5. Favorite Recipes**  
@@ -90,9 +90,9 @@
    Request:  
    ```json
    {  
-   “username”: “string”,  
-   “chef_level”: “string”,  
-   “about_me”: “string”  
+   "username": "string",  
+   "chef_level": "string",  
+   "about_me": "string"  
    }
    ```
    Response:  
