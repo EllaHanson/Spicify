@@ -1,4 +1,6 @@
-**1. User Signup (POST)**  
+**User Access**  
+
+**1.1 User Signup (POST)**  
    Request:  
    ```json
    {  
@@ -12,9 +14,8 @@
    {  
    "user_id": "string" /* Returns a unique user_id */  
    }
-   ```
-     
-**2. Login (POST)**  
+   ```     
+**1.2 Login (POST)**  
    Request:  
    ```json
    {  
@@ -28,13 +29,27 @@
    "success": "boolean"
    }
    ```
+**1.3 Logout (POST)**  
+   Request:  
+   ```json
+   {  
+   "user_id": "string",  
+   "logged_in": "string" /* Should be set to false */
+   }
+   ```
+   Response:  
+   ```json
+   {  
+   "success": "boolean"  
+   }
+   ```
 **3. Recipe Posting (POST)**  
    Add Recipe to personal or social blog  
    Request:  
    ```json
    {  
    "title": "string",  
-   "ingredients": [{ingredient_type: "string", "measurement_type": "string", “quantity”: "int"}],  
+   "ingredients": [{"ingredient_type": "string", "measurement_type": "string", “quantity”: "int"}],  
    "time": "int",  
    "author_id": "int",  
    "is_public": "boolean"  
@@ -46,17 +61,23 @@
    "success": "boolean"
    }
    ```
-**4. Explore Recipes**  
-   Filter for recipes based on certain preferences
+**4. Explore Recipes (POST)**  
+   Filter for recipes based on certain preferences  
    Request:
    ```json
    {
    "recipe_type": "string",  
-   "ingredients": ["string"],  
-   "dietary_restrictions": "string"
+   "ingredients": [{"ingredient_type": "string", "measurement_type": "string", “quantity”: "int"}],  
+   "dietary_restrictions": [{"dietary_restriction": "string"}]
    }
    ```
-**5. Favorite Recipes**  
+   Response:  
+   ```json
+   {  
+   "recipes_result": [{"recipe_id": "int"}]
+   }
+   ```
+**5. Favorite Recipes (POST)**  
    Save a recipe for later in the favorites tab  
    Request:  
    ```json
@@ -70,7 +91,7 @@
    "success": "boolean"
    }
    ```
-**6. Get Favorites**  
+**6. Get Favorites (GET)**  
    Provide list of the users favorited recipes.
    Request:
    ```json
@@ -81,11 +102,11 @@
    Response:  
    ```json
    {
-   "user_favs": ["recipe_id": "int"]
+   "user_favs": [{"recipe_id": "int"}]
    }
    ```
 
-**7. Search User (GET)**  
+**7. Search User (POST)**  
    Search for specific username  
    Request:  
    ```json
@@ -100,8 +121,8 @@
    "users_result": ["usernames": "int"]  
    }
    ```
-**8. Edit Profile**  
-   Change username, tags, about me, etc  
+**8. Edit Profile (PUT)**  
+   Change username, chef level, or about me
    Request:  
    ```json
    {  
@@ -116,13 +137,7 @@
    "success": "boolean"  
    }
    ```
-**9. Logout**  
-   Response:  
-   ```json
-   {  
-   "success": "boolean"  
-   }
-   ```
+
 
 
 
