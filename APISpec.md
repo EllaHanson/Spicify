@@ -72,6 +72,7 @@
    ```
 **6. Get Favorites**  
    Provide list of the users favorited recipes.
+   Request:
    ```json
    {
    "user_id": "int"
