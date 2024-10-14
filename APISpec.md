@@ -1,4 +1,4 @@
-**1. User Signup (POST)  **
+**1. User Signup (POST)**  
    Request:  
    {  
    &nbsp;&nbsp;&nbsp;&nbsp;"username": "string",  
@@ -10,7 +10,7 @@
    &nbsp;&nbsp;&nbsp;&nbsp;"user_id": "string" /* Returns a unique user_id */  
    }
      
-**2. Login (POST)  **
+**2. Login (POST)**  
    Request:
    {  
    &nbsp;&nbsp;&nbsp;&nbsp;"username": "string",
@@ -20,7 +20,7 @@
    {
    &nbsp;&nbsp;&nbsp;&nbsp;"success": boolean
    }
-**3. Recipe Posting (POST)  **
+**3. Recipe Posting (POST)**  
    Add Recipe to personal or social blog
    Request:
    {
