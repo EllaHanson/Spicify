@@ -21,9 +21,9 @@
    &nbsp;&nbsp;&nbsp;&nbsp;"success": boolean  
    }  
 **3. Recipe Posting (POST)**  
-   Add Recipe to personal or social blog
-   Request:
-   {
+   Add Recipe to personal or social blog  
+   Request:  
+   {  
    &nbsp;&nbsp;&nbsp;&nbsp;"title": "string",  
    &nbsp;&nbsp;&nbsp;&nbsp;"ingredients": [{ingredient_type: "string", "measurement_type": "string", “quantity”: "int"}],  
    &nbsp;&nbsp;&nbsp;&nbsp;"time": "int",  
