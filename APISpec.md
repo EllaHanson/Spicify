@@ -19,13 +19,13 @@
    ```json
    {  
    "username": "string",  
-   "password": "string",  
+   "password": "string"
    }
    ```
    Response:  
    ```json
    {  
-   "success": boolean  
+   "success": "boolean"
    }
    ```
 **3. Recipe Posting (POST)**  
@@ -34,7 +34,7 @@
    ```json
    {  
    "title": "string",  
-   "ingredients": [{ingredient_type: "string", "measurement_type": "string", “quantity”: "int"}],  
+   "ingredients": [ingredient_type: "string", "measurement_type": "string", “quantity”: "int"],  
    "time": "int",  
    "author_id": "int",  
    "is_public": "boolean"  
@@ -53,7 +53,7 @@
    {
    “recipe_type”: “string”,  
    “preferences”: “string”,  
-   “dietary_restrictions”: string”
+   “dietary_restrictions”: "string”
    }
    ```
 **5. Favorite Recipes**  
