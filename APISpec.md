@@ -29,21 +29,23 @@
    "success": "boolean"
    }
    ```
-**1.3 Logout - /blog/{user-id}/ (POST)**  
-   Request:  
+**2. User Pages**  
+
+**2.1 Get Favorites /blog/{user_id}/favorites/ (GET)**  
+   Provide list of the user's favorited recipes.
+   Request:
    ```json
-   {  
-   "user_id": "string",  
-   "logged_in": "string" /* Should be set to false */
+   {
+   "user_id": "int"
    }
    ```
    Response:  
    ```json
-   {  
-   "success": "boolean"  
+   {
+   "user_favs": [{"recipe_id": "int"}]
    }
    ```
-**2. Post a Recipe - /postrecipe/ (POST)**  
+**2.2 Post a Recipe - blog/{user_id}/post-recipe/ (POST)**  
    Add Recipe to personal or social blog  
    Request:  
    ```json
@@ -61,8 +63,39 @@
    "recipe_id": "string"
    }
    ```
+**2.3 Edit Profile - /blog/{user_id}/edit-profile/ (PUT)**  
+   Change username, chef level, or about me
+   Request:  
+   ```json
+   {  
+   "username": "string",  
+   "chef_level": "string",  
+   "about_me": "string"  
+   }
+   ```
+   Response:  
+   ```json
+   {  
+   "success": "boolean"  
+   }
+   ```
+**2.4 Logout - /blog/{user_id}/log-out (POST)**  
+   Request:  
+   ```json
+   {  
+   "user_id": "string",  
+   "logged_in": "string" /* Should be set to false */
+   }
+   ```
+   Response:  
+   ```json
+   {  
+   "success": "boolean"  
+   }
+   ```
 **3. Explore Recipes**  
-**3.1 Filter Recipes /explore/ (POST)**  
+
+**3.1 Filter Recipes /explore/filter/ (POST)**  
    Filter for recipes based on certain preferences  
    Request:
    ```json
@@ -92,22 +125,8 @@
    "success": "boolean"
    }
    ```
-**6. Get Favorites /blog/favorites/ (GET)**  
-   Provide list of the user's favorited recipes.
-   Request:
-   ```json
-   {
-   "user_id": "int"
-   }
-   ```
-   Response:  
-   ```json
-   {
-   "user_favs": [{"recipe_id": "int"}]
-   }
-   ```
 
-**7. Search User (POST)**  
+**4. Search User /explore/search/ (POST)**  
    Search for specific username  
    Request:  
    ```json
@@ -122,22 +141,7 @@
    "users_result": ["usernames": "int"]  
    }
    ```
-**8. Edit Profile (PUT)**  
-   Change username, chef level, or about me
-   Request:  
-   ```json
-   {  
-   "username": "string",  
-   "chef_level": "string",  
-   "about_me": "string"  
-   }
-   ```
-   Response:  
-   ```json
-   {  
-   "success": "boolean"  
-   }
-   ```
+
 
 
 
