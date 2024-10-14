@@ -1,6 +1,6 @@
-**User Access**  
+**1. User Access**  
 
-**1.1 User Signup (POST)**  
+**1.1 User Signup - /signup/ (POST)**  
    Request:  
    ```json
    {  
@@ -15,7 +15,7 @@
    "user_id": "string" /* Returns a unique user_id */  
    }
    ```     
-**1.2 Login (POST)**  
+**1.2 Login - /login/ (POST)**  
    Request:  
    ```json
    {  
@@ -29,7 +29,7 @@
    "success": "boolean"
    }
    ```
-**1.3 Logout (POST)**  
+**1.3 Logout - /blog/{user-id}/ (POST)**  
    Request:  
    ```json
    {  
@@ -43,25 +43,26 @@
    "success": "boolean"  
    }
    ```
-**3. Recipe Posting (POST)**  
+**2. Post a Recipe - /postrecipe/ (POST)**  
    Add Recipe to personal or social blog  
    Request:  
    ```json
-   {  
-   "title": "string",  
+   {
+   "title": "string", 
    "ingredients": [{"ingredient_type": "string", "measurement_type": "string", “quantity”: "int"}],  
    "time": "int",  
    "author_id": "int",  
-   "is_public": "boolean"  
+   "is_public": "boolean" 
    }
    ```
    Response:
    ```json
    {
-   "success": "boolean"
+   "recipe_id": "string"
    }
    ```
-**4. Explore Recipes (POST)**  
+**3. Explore Recipes**  
+**3.1 Filter Recipes /explore/ (POST)**  
    Filter for recipes based on certain preferences  
    Request:
    ```json
@@ -77,7 +78,7 @@
    "recipes_result": [{"recipe_id": "int"}]
    }
    ```
-**5. Favorite Recipes (POST)**  
+**3.2 Favorite Recipes /explore/favorites/ (POST)**  
    Save a recipe for later in the favorites tab  
    Request:  
    ```json
@@ -91,8 +92,8 @@
    "success": "boolean"
    }
    ```
-**6. Get Favorites (GET)**  
-   Provide list of the users favorited recipes.
+**6. Get Favorites /blog/favorites/ (GET)**  
+   Provide list of the user's favorited recipes.
    Request:
    ```json
    {
