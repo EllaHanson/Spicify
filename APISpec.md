@@ -53,7 +53,7 @@
    {
    "recipe_type": "string",  
    "preferences": "string",  
-   "dietary_restrictions": "string”
+   "dietary_restrictions": "string"
    }
    ```
 **5. Favorite Recipes**  
