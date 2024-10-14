@@ -1,14 +1,18 @@
 **1. User Signup (POST)**  
    Request:  
+   ```json
    {  
-   &nbsp;&nbsp;&nbsp;&nbsp;"username": "string",  
-   &nbsp;&nbsp;&nbsp;&nbsp;"email": "string",  
-   &nbsp;&nbsp;&nbsp;&nbsp;"password": "string" 
-   }    
-   Response:  
-  {  
-   &nbsp;&nbsp;&nbsp;&nbsp;"user_id": "string" /* Returns a unique user_id */  
+   "username": "string",  
+   "email": "string",  
+   "password": "string" 
    }
+   ```
+   Response:  
+   ```json
+   {  
+   "user_id": "string" /* Returns a unique user_id */  
+   }
+   ```
      
 **2. Login (POST)**  
    Request:  
