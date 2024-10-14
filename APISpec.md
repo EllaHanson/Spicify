@@ -15,37 +15,47 @@
    ```
      
 **2. Login (POST)**  
+   ```json
    Request:  
    {  
    &nbsp;&nbsp;&nbsp;&nbsp;"username": "string",  
    &nbsp;&nbsp;&nbsp;&nbsp;"password": "string",  
-   }    
+   }
+   ```
    Response:  
+   ```json
    {  
    &nbsp;&nbsp;&nbsp;&nbsp;"success": boolean  
-   }  
+   }
+   ```
 **3. Recipe Posting (POST)**  
    Add Recipe to personal or social blog  
    Request:  
+   ```json
    {  
-   &nbsp;&nbsp;&nbsp;&nbsp;"title": "string",  
-   &nbsp;&nbsp;&nbsp;&nbsp;"ingredients": [{ingredient_type: "string", "measurement_type": "string", “quantity”: "int"}],  
-   &nbsp;&nbsp;&nbsp;&nbsp;"time": "int",  
-   &nbsp;&nbsp;&nbsp;&nbsp;"author_id": "int",  
-   &nbsp;&nbsp;&nbsp;&nbsp;"is_public": "boolean"  
-   }    
+   "title": "string",  
+   "ingredients": [{ingredient_type: "string", "measurement_type": "string", “quantity”: "int"}],  
+   "time": "int",  
+   "author_id": "int",  
+   "is_public": "boolean"  
+   }
+   ```
    Response:
+   ```json
    {
-   &nbsp;&nbsp;&nbsp;&nbsp;"success": "boolean"
-   }  
+   "success": "boolean"
+   }
+   ```
 **4. Explore Recipes**  
    Filter for recipes based on certain preferences
+   ```json
    Request:  
    {
-   &nbsp;&nbsp;&nbsp;&nbsp;“recipe_type”: “string”,  
-   &nbsp;&nbsp;&nbsp;&nbsp;“preferences”: “string”,  
-   &nbsp;&nbsp;&nbsp;&nbsp;“dietary_restrictions”: string”,  
-   }    
+   “recipe_type”: “string”,  
+   “preferences”: “string”,  
+   “dietary_restrictions”: string”,  
+   }
+   ```
 **5. Favorite Recipes**  
    Save a recipe for later in the favorites tab  
    Request:  
