@@ -61,13 +61,13 @@
    Request:  
    ```json
    {  
-   “recipe_id”: “string”
+   "recipe_id": "string"
    }
    ```
    Response:  
    ```json
    {  
-   “success”: boolean  
+   "success": "boolean"
    }
    ```
 **6. Search User (GET)**  
@@ -75,14 +75,14 @@
    Request:  
    ```json
    {  
-    “username”: string  
-    “tag”: ["prefrence": "string"]  
+    "username": "string"  
+    "tag": ["prefrence": "string"]  
    }
    ```
    Response:  
    ```json
    {  
-   “users_result”: ["usernames": "int"]  
+   "users_result": ["usernames": "int"]  
    }
    ```
 **7. Edit Profile**  
