@@ -1,4 +1,4 @@
-**1. User Signup (POST)**
+**User Signup (POST)**
    Request:  
    {  
    &nbsp;&nbsp;&nbsp;&nbsp;"username": "string",  
