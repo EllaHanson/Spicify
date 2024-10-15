@@ -1,16 +1,15 @@
-**A user wants to make a new account...**
-- User first calls User Signup to set up a email, username, and password to connect with a user_id.  
-- User can then login to their account since they have their information in the database.  
-- The user can then check on their profile to update their about me, level, and check with tags they want to have with their profile.  
+**Teresa is a new user. She is a home cook mom who visits our recipe site looking for fast and easy recipe ideas for her family of 5...**
+- Teresa first calls POST /signup to create a new account. She passes in her email, username, and password. A unique user_id 1001 is created.
+- Teresa now logs in to her account. She calls POST /login and passes in her username and password, the logged in state returns "true", logging Teresa in successfully.
+- Teresa navigates to her profile to update it. She calls PUT /blog/{1001}/edit-profile and adds an about me section and changes her chef level to "home cook".
 
-**Someone wants to search for recipes for later...**
-- The user can first search for a specific type of recipe with Explore Recipe and proving recipe_type, ingredients, and dietary_restrictions.  
-- From that list of recipes the user can chooser to favorite a recipe which would save it in a favorites tab.  
-- When the user wants to look back at their favorite recipes, they can use 'Get Favorites,' which provides all the user's specific favorites.  
+**Teresa is now a returning user. She wants to explore new recipes to add to her collection...**
+- Teresa navigates to the Explore Recipes tab to look for new recipes. She calls POST /explore/filter and passes in "dinner" for recipe type, "keto" for dietary restrictions, 30 minutes for max time, and home cook for complexity level.
+- Teresa scrolls through the filtered feed of recipes. She finds a recipe she loves and wants to add it to her favorites. She clicks on the recipe of recipe ID 2001 and calls POST /explore/{2001}/favorites, which adds it to her list of favorites for later.
+- She tries out the recipe for dinner and loved it. Now, she wants to comment and rate the recipe. She calls POST /explore/{2001}/comment and passes in her comment "This shrimp scampi was fast, easy, and delicious! Great crowd pleaser." She also calls POST /explore/{2001}/rate and passes a "5" for rating, giving it a 5-star rating. 
 
-
-**A user follows another user...**
-- Someone can 'Search user' by their username or by the tags associated with a users recipes.  
-- With the list of users fitting their search the user can choose to follow them.  
+**Teresa now wants to post a new recipe that she had created in her spare time to share with others...**
+- Teresa navigates to her recipe blog and calls POST blog/{1001}/post-recipe to post a new recipe. She passes in "Pesto Chicken and Veggies" for title, "chicken", "green beans", "olive oil", and "pesto" for ingredients, and her recipe instructions for method. After the call, the recipe is posted and a new recipe ID 2002 is created for this recipe.
+- Now, Teresa wants to log out to protect her data. She calls POST /blog/{1001}/log-out and successfully logs out of her account.
 
 
