@@ -103,6 +103,8 @@
    "recipe_type": "string",  
    "ingredients": [{"ingredient_type": "string", "measurement_type": "string", “quantity”: "int"}],  
    "dietary_restrictions": [{"dietary_restriction": "string"}]
+   "max_time": "int",
+   "chef_level": "string"
    }
    ```
    Response:  
