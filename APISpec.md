@@ -111,7 +111,7 @@
    "recipes_result": [{"recipe_id": "int"}]
    }
    ```
-**3.2 Favorite Recipes /explore/favorites/ (POST)**  
+**3.2 Add a Recipe to Favorites /explore/{recipe-id}/favorites/ (POST)**  
    Save a recipe for later in the favorites tab  
    Request:  
    ```json
@@ -125,20 +125,35 @@
    "success": "boolean"
    }
    ```
-
-**4. Search User /explore/search/ (POST)**  
-   Search for specific username  
+**3.3 Comment on Recipes /explore/{recipe-id}/comment/ (POST)**  
+   Comment on a recipe in the recipe feed 
    Request:  
    ```json
    {  
-    "username": "string"  
-    "tag": ["prefrence": "string"]  
+    "recipe_id": "string",
+    "message": "string" 
    }
    ```
    Response:  
    ```json
    {  
-   "users_result": ["usernames": "int"]  
+   "success": "boolean" 
+   }
+   ```
+
+**3.4 Rate a Recipe /explore/{recipe-id}/rate/ (POST)**  
+   Rate a recipe in the recipe feed 
+   Request:  
+   ```json
+   {  
+    "recipe_id": "string"
+    "rating": "int" 
+   }
+   ```
+   Response:  
+   ```json
+   {  
+   "success": "boolean"
    }
    ```
 
