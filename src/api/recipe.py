@@ -16,7 +16,7 @@ router = APIRouter(
 )
 
 
-@router.post("/deliver/{order_id}")
+@router.post("/recipe")
 def post_recipe():
 
     print("hi")
