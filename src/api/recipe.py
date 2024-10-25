@@ -25,6 +25,6 @@ def post_recipe():
 
 
 
-@router.post("/user/add")
-def add_user(new_user: user):
+"""@router.post("/user/add")
+def add_user(new_user: user):"""
     
