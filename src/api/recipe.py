@@ -31,8 +31,17 @@ def add_user(new_user: User):
     return "OK"
 
 @router.post("/loggin")
-def logg_in_out(user_id: int):
-     with db.engine.begin() as connection:
-            connection.execute(sqlalchemy.text("UPDATE user SET logged_in = TRUE WHERE user_id = :temp_id"), {"temp_id": user_id})
+def loggin(user_id: int):
+    with db.engine.begin() as connection:
+        print(f"loggin for user {user_id}")
+        connection.execute(sqlalchemy.text("UPDATE users SET logged_in = TRUE WHERE user_id = :temp_id"), {"temp_id": user_id})
+    return "OK"
+
+@router.post("/loggout")
+def loggout(user_id: int):
+    with db.engine.begin() as connection:
+        print(f"loggout for user {user_id}")
+        connection.execute(sqlalchemy.text("UPDATE users SET logged_in = FALSE WHERE user_id = :temp_id"), {"temp_id": user_id})
+    return "OK"
 
     
