@@ -12,7 +12,7 @@ router = APIRouter(
     dependencies=[Depends(auth.get_api_key)],
 )
 
-class user:
+class user(BaseModel):
     name: str
     email: str
     password: str
