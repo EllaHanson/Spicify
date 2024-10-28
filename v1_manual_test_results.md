@@ -6,7 +6,7 @@
 
 
 # Testing results  
-/recipe/post/user  
+<ins>/recipe/post/user</ins>  
 1.  
 curl -X 'POST' \  
   'http://127.0.0.1:8000/recipe/post/user' \  
