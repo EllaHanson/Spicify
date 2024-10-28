@@ -18,9 +18,13 @@ class user:
     password: str
 
 @router.post("/post")
-def post_recipe():
+def post_recipe(new_user: user):
 
-    print("hi")
+
+    with db.engine.begin() as connection:
+        print(f"insert user {user.name}")
+        connection.execute(sqlalchemy.text("INSERT INTO users (username, email, password) VALUES :new_name, :new_email, :new_password"), 
+                           {"new_name": user.name, "new_email": user.email, "new_password": user.password})
     return "OK"
 
 
