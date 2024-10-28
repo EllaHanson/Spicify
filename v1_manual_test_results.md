@@ -22,7 +22,7 @@ curl -X 'POST' \
 ```
   
 2.  
-<ins>code</ins>: 200
+<ins>code</ins>: 200  
 <ins>Response Body</ins>:
 ```json
 {
@@ -48,7 +48,7 @@ curl -X 'POST' \
   -d ''
 ```
 2.  
-<ins>Code</ins>: 200
+<ins>Code</ins>: 200  
 <ins>Response Body</ins>: 
 ```json
 "OK"
@@ -72,7 +72,7 @@ curl -X 'POST' \
   -d ''
 ```
 2.
-<ins>Code</ins>: 200
+<ins>Code</ins>: 200  
 <ins>Response Body</ins>:
 ```json
 "OK"
