@@ -6,7 +6,7 @@
 
 
 # Testing results  
-<ins>/recipe/post/user</ins>  
+**/recipe/post/user**  
 1.  
 curl -X 'POST' \  
   'http://127.0.0.1:8000/recipe/post/user' \  
@@ -20,14 +20,15 @@ curl -X 'POST' \
 }'  
   
 2.  
-Response:
-code: 200  
+<ins>Response:</ins>
+<ins>code</ins>: 200
+<ins>Response Body</ins>:
 ```json
 {
   "user_id": 7
 }
 ```
-Response Header:  
+<ins>Response Header:</ins>  
  access-control-allow-credentials: true   
  content-length: 13  
  content-type: application/json  
@@ -35,7 +36,7 @@ Response Header:
  server: uvicorn  
   
   
-/recipe/loggin  
+**/recipe/loggin**  
 1.  
 curl -X 'POST' \  
   'http://127.0.0.1:8000/recipe/loggin?user_id=7' \  
@@ -43,12 +44,12 @@ curl -X 'POST' \
   -H 'access_token: a' \  
   -d ''  
 2.  
-Code: 200  
-Response Body:  
+<ins>Code</ins>: 200  
+<ins>Response Body</ins>:  
 ```json
 "OK"
 ```
-Response Header:  
+<ins>Response Header</ins>:  
 access-control-allow-credentials: true   
  content-length: 4  
  content-type: application/json  
@@ -56,7 +57,7 @@ access-control-allow-credentials: true
  server: uvicorn  
 
   
-/recipe/profile  
+**/recipe/profile**  
 1.  
 curl -X 'POST' \  
   'http://127.0.0.1:8000/recipe/profile?id=7&level=home%20cook&about_me=Looking%20for%20pies%20for%20Thanksgiving%21%21' \   
@@ -64,12 +65,12 @@ curl -X 'POST' \
   -H 'access_token: a' \  
   -d ''  
 2.
-Code: 200
-Response Body:
+<ins>Code</ins>: 200
+<ins>Response Body</ins>:
 ```json
 "OK"
 ```
-Response Header:  
+<ins>Response Header</ins>:  
  access-control-allow-credentials: true  
  content-length: 4  
  content-type: application/json  
