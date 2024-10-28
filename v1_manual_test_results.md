@@ -20,9 +20,10 @@ curl -X 'POST' \
 }'  
   
 2.  
-<ins>Response:</ins>
 <ins>code</ins>: 200
+  
 <ins>Response Body</ins>:
+  
 ```json
 {
   "user_id": 7
@@ -44,12 +45,15 @@ curl -X 'POST' \
   -H 'access_token: a' \  
   -d ''  
 2.  
-<ins>Code</ins>: 200  
-<ins>Response Body</ins>:  
+<ins>Code</ins>: 200
+  
+<ins>Response Body</ins>:
+  
 ```json
 "OK"
 ```
-<ins>Response Header</ins>:  
+<ins>Response Header</ins>:
+  
 access-control-allow-credentials: true   
  content-length: 4  
  content-type: application/json  
@@ -66,11 +70,14 @@ curl -X 'POST' \
   -d ''  
 2.
 <ins>Code</ins>: 200
+  
 <ins>Response Body</ins>:
+  
 ```json
 "OK"
 ```
-<ins>Response Header</ins>:  
+<ins>Response Header</ins>:
+  
  access-control-allow-credentials: true  
  content-length: 4  
  content-type: application/json  
