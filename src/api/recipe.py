@@ -20,21 +20,19 @@ class User(BaseModel):
 @router.post("/post/user")
 def add_user(new_user: User):
     with db.engine.begin() as connection:
+        in_table = connection.execute(sqlalchemy.text("SELECT COUNT(*) FROM users WHERE email = :check_email"), {"check_email": new_user.email}).fetchone().count
+
+        if in_table:
+            print(f"{new_user.name} already in customer table")
+            return "OK"
+        
         print(f"insert user {new_user.name}")
-        connection.execute(sqlalchemy.text("INSERT INTO users (username, email, password) VALUES (:new_name, :new_email, :new_password)"), 
-                           {"new_name": new_user.name, "new_email": new_user.email, "new_password": new_user.password})
+        connection.execute(sqlalchemy.text("INSERT INTO users (username, email, password) VALUES (:new_name, :new_email, :new_password)"), {"new_name": new_user.name, "new_email": new_user.email, "new_password": new_user.password})
     return "OK"
-"""
+
 @router.post("/loggin")
 def logg_in_out(user_id: int):
      with db.engine.begin() as connection:
-            connection.execute(sqlalchemy.text(""))
+            connection.execute(sqlalchemy.text("UPDATE user SET logged_in = TRUE WHERE user_id = :temp_id"), {"temp_id": user_id})
 
-        """
-
-
-
-
-"""@router.post("/user/add")
-def add_user(new_user: user):"""
     
