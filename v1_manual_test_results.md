@@ -6,7 +6,7 @@
 
 
 # Testing results  
-##/recipe/post/user  
+## /recipe/post/user  
 1.  
 ```
 curl -X 'POST' \  
@@ -38,7 +38,7 @@ curl -X 'POST' \
  server: uvicorn  
 ```
   
-##/recipe/loggin  
+## /recipe/loggin  
 1.  
 ```
 curl -X 'POST' \  
@@ -62,7 +62,7 @@ access-control-allow-credentials: true
  server: uvicorn  
 ```
   
-##/recipe/profile  
+## /recipe/profile  
 1.  
 ```
 curl -X 'POST' \  
