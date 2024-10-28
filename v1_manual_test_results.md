@@ -8,8 +8,7 @@
 # Testing results  
 **/recipe/post/user**  
 1.  
-```json
-
+```
 curl -X 'POST' \  
   'http://127.0.0.1:8000/recipe/post/user' \  
   -H 'accept: application/json' \  
@@ -43,8 +42,7 @@ curl -X 'POST' \
   
 **/recipe/loggin**  
 1.  
-```json
-
+```
 curl -X 'POST' \  
   'http://127.0.0.1:8000/recipe/loggin?user_id=7' \  
   -H 'accept: application/json' \  
@@ -70,8 +68,7 @@ access-control-allow-credentials: true
   
 **/recipe/profile**  
 1.  
-```json
-
+```
 curl -X 'POST' \  
   'http://127.0.0.1:8000/recipe/profile?id=7&level=home%20cook&about_me=Looking%20for%20pies%20for%20Thanksgiving%21%21' \   
   -H 'accept: application/json' \  
