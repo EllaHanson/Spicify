@@ -22,9 +22,9 @@ def post_recipe(new_user: user):
 
 
     with db.engine.begin() as connection:
-        print(f"insert user {user.name}")
+        print(f"insert user {new_user.name}")
         connection.execute(sqlalchemy.text("INSERT INTO users (username, email, password) VALUES :new_name, :new_email, :new_password"), 
-                           {"new_name": user.name, "new_email": user.email, "new_password": user.password})
+                           {"new_name": new_user.name, "new_email": new_user.email, "new_password": new_user.password})
     return "OK"
 
 
