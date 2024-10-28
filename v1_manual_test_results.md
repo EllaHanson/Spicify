@@ -23,22 +23,20 @@ curl -X 'POST' \
   
 2.  
 <ins>code</ins>: 200
-
 <ins>Response Body</ins>:
-
 ```json
 {
   "user_id": 7
 }
 ```
 <ins>Response Header:</ins>  
-
+```
  access-control-allow-credentials: true   
  content-length: 13  
  content-type: application/json  
  date: Mon,28 Oct 2024 20:02:35 GMT  
  server: uvicorn  
-  
+```
   
 **/recipe/loggin**  
 1.  
@@ -51,20 +49,18 @@ curl -X 'POST' \
 ```
 2.  
 <ins>Code</ins>: 200
-  
-<ins>Response Body</ins>:
-  
+<ins>Response Body</ins>: 
 ```json
 "OK"
 ```
 <ins>Response Header</ins>:
-  
+```
 access-control-allow-credentials: true   
  content-length: 4  
  content-type: application/json  
  date: Mon,28 Oct 2024 20:05:10 GMT  
  server: uvicorn  
-
+```
   
 **/recipe/profile**  
 1.  
@@ -77,18 +73,16 @@ curl -X 'POST' \
 ```
 2.
 <ins>Code</ins>: 200
-  
 <ins>Response Body</ins>:
-  
 ```json
 "OK"
 ```
 <ins>Response Header</ins>:
-  
+```
  access-control-allow-credentials: true  
  content-length: 4  
  content-type: application/json  
  date: Mon,28 Oct 2024 20:15:33 GMT  
  server: uvicorn  
-
+```
   
