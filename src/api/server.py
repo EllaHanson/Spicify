@@ -3,6 +3,9 @@ from fastapi.responses import JSONResponse
 from pydantic import ValidationError
 from . import profile
 from . import recipe
+from . import update_profile
+from . import favorites
+from . import comment
 import json
 import logging
 import sys
@@ -35,6 +38,13 @@ app.add_middleware(
 )
 
 app.include_router(profile.router)
+app.include_router(recipe.router)
+app.include_router(update_profile.router)
+app.include_router(favorites.router)
+app.include_router(comment.router)
+
+
+
 
 
 @app.exception_handler(exceptions.RequestValidationError)
