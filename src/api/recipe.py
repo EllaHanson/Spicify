@@ -12,36 +12,25 @@ router = APIRouter(
     dependencies=[Depends(auth.get_api_key)],
 )
 
-class User(BaseModel):
+class ingredient(BaseModel):
     name: str
-    email: str
-    password: str
+    measurement_type: str
+    measurement_amount: int
 
-@router.post("/post/user")
-def add_user(new_user: User):
+class recipe(BaseModel):
+    title: str
+    type: str
+    time: int
+    complexity: str
+    is_public: bool
+    ingredients: list[ingredient]
+
+@router.post("/post/recipe")
+def post_recipe(new_recipe: recipe, user_id: int):
     with db.engine.begin() as connection:
-        in_table = connection.execute(sqlalchemy.text("SELECT COUNT(*) FROM users WHERE email = :check_email"), {"check_email": new_user.email}).fetchone().count
-
-        if in_table:
-            print(f"{new_user.name} already in customer table")
-            return "OK"
+        connection.execute(sqlalchemy.text("INSERT INTO recipes (type, title, time_needed, author_id, complexity, is_public) VALUES (:temp_type, :temp_title, :temp_time, :temp_author, :temp_complexity, :temp_public)"),
+                            {"temp_type": new_recipe.type, "temp_title": new_recipe.title, "temp_time": new_recipe.time, "temp_author": user_id, "temp_complexity": new_recipe.complexity, "temp_public": new_recipe.is_public})
         
-        print(f"insert user {new_user.name}")
-        connection.execute(sqlalchemy.text("INSERT INTO users (username, email, password) VALUES (:new_name, :new_email, :new_password)"), {"new_name": new_user.name, "new_email": new_user.email, "new_password": new_user.password})
+        for n in new_recipe.ingredients:
+            print(n)
     return "OK"
-
-@router.post("/loggin")
-def loggin(user_id: int):
-    with db.engine.begin() as connection:
-        print(f"loggin for user {user_id}")
-        connection.execute(sqlalchemy.text("UPDATE users SET logged_in = TRUE WHERE user_id = :temp_id"), {"temp_id": user_id})
-    return "OK"
-
-@router.post("/loggout")
-def loggout(user_id: int):
-    with db.engine.begin() as connection:
-        print(f"loggout for user {user_id}")
-        connection.execute(sqlalchemy.text("UPDATE users SET logged_in = FALSE WHERE user_id = :temp_id"), {"temp_id": user_id})
-    return "OK"
-
-    

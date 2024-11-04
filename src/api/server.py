@@ -1,7 +1,8 @@
 from fastapi import FastAPI, exceptions
 from fastapi.responses import JSONResponse
 from pydantic import ValidationError
-from src.api import recipe
+from . import profile
+from . import recipe
 import json
 import logging
 import sys
@@ -15,6 +16,7 @@ app = FastAPI(
     title="Spicify",
     description=description,
     version="0.0.1",
+    
     terms_of_service="http://example.com/terms/",
     contact={
         "name": "Ella Hanson",
@@ -32,7 +34,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(recipe.router)
+app.include_router(profile.router)
 
 
 @app.exception_handler(exceptions.RequestValidationError)
