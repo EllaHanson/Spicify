@@ -6,6 +6,7 @@ from . import recipe
 from . import update_profile
 from . import favorites
 from . import rating
+from . import comment
 import json
 import logging
 import sys
@@ -42,9 +43,7 @@ app.include_router(recipe.router)
 app.include_router(update_profile.router)
 app.include_router(favorites.router)
 app.include_router(rating.router)
-
-
-
+app.include_router(comment.router)
 
 
 @app.exception_handler(exceptions.RequestValidationError)
