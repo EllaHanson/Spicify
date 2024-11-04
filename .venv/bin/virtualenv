@@ -1,5 +1,5 @@
 #!/bin/sh
-'''exec' "/Users/ella/Desktop/Github Repos/Leaky-Tap/.venv/bin/python" "$0" "$@"
+'''exec' "/Users/katieslobodsky/Desktop/CSC 365/Projects/Spicify/Spicify/.venv/bin/python" "$0" "$@"
 ' '''
 # -*- coding: utf-8 -*-
 import re
