@@ -7,11 +7,11 @@ from src import database as db
 
 
 router = APIRouter(
-    prefix="/comment",
-    tags=["comment"],
+    prefix="/rating",
+    tags=["rating"],
     dependencies=[Depends(auth.get_api_key)],
 )
 
-@router.post("/post/comment")
-def post_comment():
+@router.post("/post/rating")
+def post_rating():
     return "OK"
