@@ -3,7 +3,8 @@
 Group Members:   
 Cory Cowden, cfcowden@calpoly.edu  
 Katie Slobodsky, kslobods@calpoly.edu  
-Ella Hanson, ehanson07@calpoly.edu  
+Ella Hanson, ehanson07@calpoly.edu 
+Juan Cisneros, jcisne23@calpoly.edu
 
 
 Proposal:  
