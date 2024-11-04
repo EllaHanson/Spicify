@@ -90,9 +90,30 @@ def post_recipe(new_recipe: recipe, user_id: int):
     return "OK"
 
 @router.post("/get/filter")
-def get_recipe(tags: str):
+def get_recipe(tags: list[str]):
+
+    return_list = []
+    
+    if not tags:
+        return return_list
+    
+    tag_count = len(tags)
+    
+    search_str = "SELECT DISTINCT recipe_id FROM tags WHERE tag IN ("
+    while tags:
+        temp_tag = tags.pop()
+        search_str += "'"
+        search_str += temp_tag
+        search_str += "'"
+        if tags:
+            search_str += ", "
+    
+    search_str += ") GROUP BY recipe_id HAVING COUNT(DISTINCT tag) = "
+    search_str += str(tag_count)
+    print(search_str)
+
     with db.engine.begin() as connection:
-        tag_result = connection.execute(sqlalchemy.text("SELECT DISTINCT recipe_id FROM tags WHERE tag = :temp_tag"), {"temp_tag": tags}).fetchall()
+        tag_result = connection.execute(sqlalchemy.text(search_str)).fetchall()
         print(tag_result)
 
         search_str = "SELECT * FROM recipes WHERE "
@@ -105,31 +126,9 @@ def get_recipe(tags: str):
         recipe_result = connection.execute(sqlalchemy.text(search_str)).fetchall()
         for n in recipe_result:
             print(n)
+    return "OK"
 
-
-    # try for search with multiple tags
-"""
-    return_list = []
-    
-    if not tags:
-        return return_list
-    
-    search_str = "SELECT recipe_id, count(tag) FROM tags WHERE "
-    while tags:
-        temp_tag = tags.pop()
-        search_str += "tag = '"
-        search_str += temp_tag
-        search_str += "'"
-        if tags:
-            search_str += " and "
-    
-    search_str += "GROUP BY recipe_id"
-    
-
-    with db.engine.begin() as connection:
-        tag_result = connection.execute(sqlalchemy.text(search_str)).fetchall()
-        print(tag_result)
-        """
+        
     
 
 
