@@ -33,7 +33,11 @@ end
 # Unset irrelevant variables.
 deactivate nondestructive
 
+<<<<<<< HEAD
 set -gx VIRTUAL_ENV "/Users/corycowden/Spicify/.venv"
+=======
+set -gx VIRTUAL_ENV "/Users/katieslobodsky/Desktop/CSC 365/Projects/Spicify/Spicify/.venv"
+>>>>>>> f42142275c5eabe9adef3b24326d393d0cc706bb
 
 set -gx _OLD_VIRTUAL_PATH $PATH
 set -gx PATH "$VIRTUAL_ENV/bin" $PATH
@@ -66,4 +70,5 @@ if test -z "$VIRTUAL_ENV_DISABLE_PROMPT"
     end
 
     set -gx _OLD_FISH_PROMPT_OVERRIDE "$VIRTUAL_ENV"
+    set -gx VIRTUAL_ENV_PROMPT "(.venv) "
 end
