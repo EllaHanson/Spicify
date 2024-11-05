@@ -133,10 +133,10 @@ curl -X 'POST' \
 2. Response
 ```
 access-control-allow-credentials: true 
- content-length: 4 
- content-type: application/json 
- date: Tue,05 Nov 2024 06:45:45 GMT 
- server: uvicorn 
+content-length: 4 
+content-type: application/json 
+date: Tue,05 Nov 2024 06:45:45 GMT 
+server: uvicorn 
 ```
 
 ## Workflow: Teresa navigates to her profile to update it. She calls PUT /blog/{1001}/edit-profile and adds an about me section and changes her chef level to "home cook". 
