@@ -121,6 +121,23 @@ curl -X 'POST' \
  date: Tue,05 Nov 2024 05:10:47 GMT 
  server: uvicorn 
 ```
+## /rating/post/rating
+1. Curl
+```
+curl -X 'POST' \
+  'http://127.0.0.1:8000/rating/post/rating?recipe_id=6&rating=5' \
+  -H 'accept: application/json' \
+  -H 'access_token: a' \
+  -d ''
+```
+2. Response
+```
+access-control-allow-credentials: true 
+ content-length: 4 
+ content-type: application/json 
+ date: Tue,05 Nov 2024 06:45:45 GMT 
+ server: uvicorn 
+```
 
 ## Workflow: Teresa navigates to her profile to update it. She calls PUT /blog/{1001}/edit-profile and adds an about me section and changes her chef level to "home cook". 
 
