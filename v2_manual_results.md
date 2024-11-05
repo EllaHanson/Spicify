@@ -131,6 +131,11 @@ curl -X 'POST' \
   -d ''
 ```
 2. Response
+_Response Body_
+```
+"OK"
+```
+_Response Header_
 ```
 access-control-allow-credentials: true 
 content-length: 4 
