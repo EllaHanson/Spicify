@@ -128,7 +128,7 @@ curl -X 'POST' \
 1. 
 ```
 curl -X 'POST' \
-  'http://127.0.0.1:8000/profile/profile?id=11&level=intermediate&about_me=yay%20i%20love%20learning%20to%20cook' \
+  'http://127.0.0.1:8000/profile/profile?id=7&level=home%20cook&about_me=yay%20i%20love%20cooking&username=TeresaLovesCooking&user_id=7' \
   -H 'accept: application/json' \
   -H 'access_token: a' \
   -d ''
@@ -145,6 +145,6 @@ curl -X 'POST' \
  access-control-allow-credentials: true 
  content-length: 4 
  content-type: application/json 
- date: Tue,05 Nov 2024 05:55:08 GMT 
+ date: Tue,05 Nov 2024 06:20:14 GMT 
  server: uvicorn 
 ```
