@@ -121,4 +121,30 @@ curl -X 'POST' \
  date: Tue,05 Nov 2024 05:10:47 GMT 
  server: uvicorn 
 ```
-  
+
+## Workflow: Teresa navigates to her profile to update it. She calls PUT /blog/{1001}/edit-profile and adds an about me section and changes her chef level to "home cook". 
+
+## /update_profile/profile
+1. 
+```
+curl -X 'POST' \
+  'http://127.0.0.1:8000/profile/profile?id=11&level=intermediate&about_me=yay%20i%20love%20learning%20to%20cook' \
+  -H 'accept: application/json' \
+  -H 'access_token: a' \
+  -d ''
+```
+2. 
+
+<ins>Code</ins>: 200  
+<ins>Response Body</ins>: 
+```json
+"OK"
+```
+ <ins>Response Header</ins>: 
+```
+ access-control-allow-credentials: true 
+ content-length: 4 
+ content-type: application/json 
+ date: Tue,05 Nov 2024 05:55:08 GMT 
+ server: uvicorn 
+```
