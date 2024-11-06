@@ -163,12 +163,13 @@ def get_recipe(tags: list[str] = None, recipe_type: str = None, ingredients: lis
     else:
         recipe_list = []
     
-    
+    return_list = []
     for n in recipe_list:
         print(n.title)
+        return_list.append(n.recipe_id)
 
 
-    return "OK"
+    return return_list
 
         
     
