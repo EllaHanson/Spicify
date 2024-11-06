@@ -34,9 +34,15 @@ end
 deactivate nondestructive
 
 set -gx VIRTUAL_ENV "/Users/ella/Desktop/Github Repos/Spicify/.venv"
+<<<<<<< HEAD
+set -gx VIRTUAL_ENV "/Users/corycowden/Spicify/.venv"
+=======
+set -gx VIRTUAL_ENV "/Users/katieslobodsky/Desktop/CSC 365/Projects/Spicify/Spicify/.venv"
+>>>>>>> f42142275c5eabe9adef3b24326d393d0cc706bb
 
 set -gx _OLD_VIRTUAL_PATH $PATH
 set -gx PATH "$VIRTUAL_ENV/bin" $PATH
+set -gx VIRTUAL_ENV_PROMPT ".venv"
 
 # Unset PYTHONHOME if set.
 if set -q PYTHONHOME
@@ -56,7 +62,7 @@ if test -z "$VIRTUAL_ENV_DISABLE_PROMPT"
         set -l old_status $status
 
         # Output the venv prompt; color taken from the blue of the Python logo.
-        printf "%s%s%s" (set_color 4B8BBE) "(.venv) " (set_color normal)
+        printf "%s(%s)%s " (set_color 4B8BBE) ".venv" (set_color normal)
 
         # Restore the return status of the previous command.
         echo "exit $old_status" | .

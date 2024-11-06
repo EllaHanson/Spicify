@@ -171,9 +171,4 @@ def get_recipe(tags: list[str] = None, recipe_type: str = None, ingredients: lis
 
     return return_list
 
-        
-    
-
-
-
 
