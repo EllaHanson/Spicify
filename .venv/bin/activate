@@ -36,20 +36,6 @@ deactivate () {
 deactivate nondestructive
 
 # on Windows, a path can contain colons and backslashes and has to be converted:
-<<<<<<< HEAD
-case "$(uname)" in
-    CYGWIN*|MSYS*)
-        # transform D:\path\to\venv to /d/path/to/venv on MSYS
-        # and to /cygdrive/d/path/to/venv on Cygwin
-        VIRTUAL_ENV=$(cygpath "/Users/corycowden/Spicify/.venv")
-        export VIRTUAL_ENV
-        ;;
-    *)
-        # use the path as-is
-        export VIRTUAL_ENV="/Users/corycowden/Spicify/.venv"
-        ;;
-esac
-=======
 if [ "${OSTYPE:-}" = "cygwin" ] || [ "${OSTYPE:-}" = "msys" ] ; then
     # transform D:\path\to\venv to /d/path/to/venv on MSYS
     # and to /cygdrive/d/path/to/venv on Cygwin
@@ -58,14 +44,10 @@ else
     # use the path as-is
     export VIRTUAL_ENV="/Users/ella/Desktop/Github Repos/Spicify/.venv"
 fi
->>>>>>> f42142275c5eabe9adef3b24326d393d0cc706bb
 
 _OLD_VIRTUAL_PATH="$PATH"
 PATH="$VIRTUAL_ENV/bin:$PATH"
 export PATH
-
-VIRTUAL_ENV_PROMPT=".venv"
-export VIRTUAL_ENV_PROMPT
 
 # unset PYTHONHOME if set
 # this will fail if PYTHONHOME is set to the empty string (which is bad anyway)
