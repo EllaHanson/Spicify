@@ -9,16 +9,10 @@ alias deactivate 'test $?_OLD_VIRTUAL_PATH != 0 && setenv PATH "$_OLD_VIRTUAL_PA
 # Unset irrelevant variables.
 deactivate nondestructive
 
-setenv VIRTUAL_ENV "/Users/ella/Desktop/Github Repos/Spicify/.venv"
-<<<<<<< HEAD
 setenv VIRTUAL_ENV "/Users/corycowden/Spicify/.venv"
-=======
-setenv VIRTUAL_ENV "/Users/katieslobodsky/Desktop/CSC 365/Projects/Spicify/Spicify/.venv"
->>>>>>> f42142275c5eabe9adef3b24326d393d0cc706bb
 
 set _OLD_VIRTUAL_PATH="$PATH"
 setenv PATH "$VIRTUAL_ENV/bin:$PATH"
-setenv VIRTUAL_ENV_PROMPT ".venv"
 
 
 set _OLD_VIRTUAL_PROMPT="$prompt"

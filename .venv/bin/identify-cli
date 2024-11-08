@@ -1,6 +1,4 @@
-#!/bin/sh
-'''exec' "/Users/ella/Desktop/Github Repos/Spicify/.venv/bin/python" "$0" "$@"
-' '''
+#!/Users/corycowden/Spicify/.venv/bin/python
 # -*- coding: utf-8 -*-
 import re
 import sys
