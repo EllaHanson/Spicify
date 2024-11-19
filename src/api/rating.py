@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
 from . import auth
 
@@ -26,10 +26,15 @@ def post_rating(recipe_id: str, rating: int):
                             WHERE recipe_id = :recipe_id"""
     
     recipe_name_sql = "SELECT title FROM recipes WHERE recipe_id = :recipe_id"
-    with db.engine.begin() as connection:
-        recipe_rating = connection.execute(sqlalchemy.text(recipe_rating_sql), 
-                                        {"rating": rating, "recipe_id": recipe_id})
-        recipe_name = connection.execute(sqlalchemy.text(recipe_name_sql), {"recipe_id": recipe_id}).scalar()
 
-    print(f"\"{recipe_name}\" has been given a rating of {rating} / 5")
+    # This addresses the peer review feedback where rating boundaries could be broken
+    if rating > 5 or rating < 0:
+        raise HTTPException(status_code = 400, detail = "Given rating breaks the boundaries!")
+    else:
+        with db.engine.begin() as connection:
+            recipe_rating = connection.execute(sqlalchemy.text(recipe_rating_sql), 
+                                            {"rating": rating, "recipe_id": recipe_id})
+            recipe_name = connection.execute(sqlalchemy.text(recipe_name_sql), {"recipe_id": recipe_id}).scalar()
+
+        print(f"\"{recipe_name}\" has been given a rating of {rating} / 5")
     return "OK"
