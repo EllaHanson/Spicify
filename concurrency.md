@@ -21,3 +21,5 @@
 3. Due to concurrent updates, the average rating is calculated using only one of their inputs, leading to an incorrect result.
 
 **Solution:** Use row-level locking for rating updates to ensure all inputs are processed accurately.
+
+Sequence diagrams: https://lucid.app/lucidchart/ecac2229-1b4f-4f16-b67a-21ea3e3bb87e/edit?invitationId=inv_3b7f757a-62b3-4cdd-9007-3911758475be&page=0_0#
