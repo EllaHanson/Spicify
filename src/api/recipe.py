@@ -3,6 +3,7 @@ from pydantic import BaseModel
 from . import auth
 
 import sqlalchemy
+import random
 from src import database as db
 
 
@@ -217,10 +218,14 @@ def meal_plan(user_id: int):
             return(return_list)
         
         IngList = []
+        TagList = []
         while favorites:
             IngList.append(favorites.pop()[0])
+        while user_tags:
+            TagList.append(user_tags.pop()[0])
         
-        recipes = connection.execute(sqlalchemy.text(
+        
+        recipes1 = connection.execute(sqlalchemy.text(
             """
             SELECT 
                 recipes.recipe_id AS recipe_id,
@@ -232,10 +237,88 @@ def meal_plan(user_id: int):
             """
             ), {"list": tuple(IngList)}
             ).fetchall()
+        
+        recipes2 = connection.execute(sqlalchemy.text(
+            """
+            SELECT 
+                recipes.recipe_id AS recipe_id,
+                recipes.type AS MealType,
+                recipes.title AS RecipeName
+            FROM recipes
+            JOIN tags ON recipes.recipe_id = tags.recipe_id
+            WHERE tags.tag IN :list
+            """
+            ), {"list": tuple(TagList)}
+            ).fetchall()
+        
+        recipe_set = set({})
+        for n in recipes1:
+            recipe_set.add(n.recipe_id)
+        
+        for n in recipes2:
+            recipe_set.add(n.recipe_id)
 
+        plan = connection.execute(sqlalchemy.text(
+            """
+            SELECT 
+                recipe_id,
+                title, 
+                LOWER(type) AS type, 
+                complexity
+            FROM recipes
+            WHERE recipe_id IN :list
+            """
+            ), {"list": tuple(recipe_set)}
+            ).fetchall()
+        
         print("Recipe Options:")
-        for n in recipes:
-            return_list.append(n.recipe_id)
+
+        random.shuffle(plan)
+
+        for n in plan:
             print(n)
 
-    return(return_list)
+        breakfast_in = False
+        lunch_in = False
+        dinner_in = False
+        dessert_in = False
+
+        for n in plan:
+            if n.type == 'breakfast' and breakfast_in == False:
+                breakfast_in = True
+                breakfast = {"Meal": 'Breakfast', "RecipeName": n.title, "Id": n.recipe_id}
+            if n.type == 'lunch' and lunch_in == False:
+                lunch_in = True
+                lunch = {"Meal": 'Lunch', "RecipeName": n.title, "Id": n.recipe_id}
+            if n.type == 'Dinner' and dinner_in == False:
+                dinner_in = True
+                dinner = {"Meal": 'Dinner', "RecipeName": n.title, "Id": n.recipe_id}
+            if n.type == 'Dessert' and dessert_in == False:
+                dessert_in = True
+                dessert = {"Meal": 'Dessert', "RecipeName": n.title, "Id": n.recipe_id}
+            
+        if breakfast_in:
+            return_list.append(breakfast)
+        else:
+            return_list.append({"Meal": 'Breakfast', "RecipeName": 'no breakfast based favorites and tags', "Id": -1})
+
+        if lunch_in:
+            return_list.append(lunch)
+        else:
+            return_list.append({"Meal": 'Lunch', "RecipeName": 'no lunch based favorites and tags', "Id": -1})
+
+        if dinner_in:
+            return_list.append(dinner)
+        else:
+            return_list.append({"Meal": 'Lunch', "RecipeName": 'no dinner based favorites and tags', "Id": -1})
+        
+        if dessert_in:
+            return_list.append(dessert)
+        else:
+            return_list.append({"Meal": 'Dessert', "RecipeName": 'no dessert based favorites and tags', "Id": -1})
+
+        for n in return_list:
+            print(n)
+
+
+        return(return_list)
