@@ -26,6 +26,19 @@ class recipe(BaseModel):
     ingredients: list[ingredient]
     tags: list[str]
 
+@router.post("/reset/tables")
+def reset():
+    with db.engine.begin() as connection:
+        print("resetting tables...")
+        connection.execute(sqlalchemy.text("DELETE FROM comments"))
+        connection.execute(sqlalchemy.text("DELETE FROM favorites"))
+        connection.execute(sqlalchemy.text("DELETE FROM ingredients"))
+        connection.execute(sqlalchemy.text("DELETE FROM profile_info"))
+        connection.execute(sqlalchemy.text("DELETE FROM recipes"))
+        connection.execute(sqlalchemy.text("DELETE FROM tags"))
+        connection.execute(sqlalchemy.text("DELETE FROM users"))
+    return "OK"
+
 @router.post("/post/recipe")
 def post_recipe(new_recipe: recipe, user_id: int):
     with db.engine.begin() as connection:
@@ -172,3 +185,57 @@ def get_recipe(tags: list[str] = None, recipe_type: str = None, ingredients: lis
     return return_list
 
 
+
+@router.post("/post/meal_plan")
+def meal_plan(user_id: int):
+    # beginner -> homecook -> intermediate -> chef
+    with db.engine.begin() as connection:
+        return_list = []
+        favorites = connection.execute(sqlalchemy.text(
+            """
+            SELECT 
+                name as Ingredient,
+                count(*) as IngCount
+            FROM favorites 
+            JOIN ingredients on ingredients.recipe_id = favorites.recipe_id
+            WHERE user_id = :id
+            GROUP BY name
+            HAVING count(*) > 1
+            ORDER BY count(*) desc
+            """
+            ), {"id": user_id}).fetchall()
+        
+        user_tags = connection.execute(sqlalchemy.text(
+            """
+            SELECT tag from user_tags
+            WHERE user_id = :id
+            """
+            ), {"id": user_id}).fetchall()
+        
+        if not favorites:
+            print("No favorites! Favorite some recipes to get a meal plan")
+            return(return_list)
+        
+        IngList = []
+        while favorites:
+            IngList.append(favorites.pop()[0])
+        
+        recipes = connection.execute(sqlalchemy.text(
+            """
+            SELECT 
+                recipes.recipe_id AS recipe_id,
+                recipes.type AS MealType,
+                recipes.title AS RecipeName
+            FROM recipes
+            JOIN ingredients ON recipes.recipe_id = ingredients.recipe_id
+            WHERE ingredients.name IN :list
+            """
+            ), {"list": tuple(IngList)}
+            ).fetchall()
+
+        print("Recipe Options:")
+        for n in recipes:
+            return_list.append(n.recipe_id)
+            print(n)
+
+    return(return_list)
