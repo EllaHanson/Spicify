@@ -37,7 +37,7 @@ def loggin(user_id: int):
     with db.engine.begin() as connection:
         print(f"loggin for user {user_id}")
         connection.execute(sqlalchemy.text("UPDATE profile_info SET logged_in = TRUE WHERE user_id = :temp_id"), {"temp_id": user_id})
-    return "OK"
+    return "Login successful!"
 
 @router.put("/profile")
 def update_profile(id: int, level: str, about_me: str, username: str, user_id: int):
@@ -45,13 +45,12 @@ def update_profile(id: int, level: str, about_me: str, username: str, user_id: i
         print(f"updating user {id} profile...") 
         connection.execute(sqlalchemy.text("UPDATE profile_info SET level = :temp_level, about_me = :temp_about WHERE user_id = :temp_id"), {"temp_level": level, "temp_about": about_me, "temp_id": id})
         connection.execute(sqlalchemy.text("UPDATE users SET username = :temp_user WHERE user_id = :userid"), {"temp_user": username, "userid": user_id})
-    return "OK"
-
+    return "Profile updated successfully!"
 
 @router.post("/loggout")
 def loggout(user_id: int):
     with db.engine.begin() as connection:
         print(f"loggout for user {user_id}")
         connection.execute(sqlalchemy.text("UPDATE profile_info SET logged_in = FALSE WHERE user_id = :temp_id"), {"temp_id": user_id})
-    return "OK"
+    return "Logout successful!"
 

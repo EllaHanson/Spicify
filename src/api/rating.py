@@ -37,4 +37,4 @@ def post_rating(recipe_id: str, rating: int):
             recipe_name = connection.execute(sqlalchemy.text(recipe_name_sql), {"recipe_id": recipe_id}).scalar()
 
         print(f"\"{recipe_name}\" has been given a rating of {rating} / 5")
-    return "OK"
+    return "Rating posted successfully!"
