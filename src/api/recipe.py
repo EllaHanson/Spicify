@@ -40,7 +40,7 @@ def reset():
         connection.execute(sqlalchemy.text("DELETE FROM users"))
     return "OK"
 
-@router.post("/post/recipe")
+@router.get("/post/recipe")
 def post_recipe(new_recipe: recipe, user_id: int):
     with db.engine.begin() as connection:
         print("inserting recipe...")
