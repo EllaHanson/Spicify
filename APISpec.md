@@ -128,7 +128,7 @@
    "success": "boolean"
    }
    ```
-**3.3 Comment on Recipes /explore/{recipe-id}/comment/ (POST)**  
+**3.3 Comment on Recipes /explore/{recipe-id}/comments/ (POST)**  
    Comment on a recipe in the recipe feed 
    Request:  
    ```json
