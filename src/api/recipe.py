@@ -40,12 +40,21 @@ def reset():
         connection.execute(sqlalchemy.text("DELETE FROM users"))
     return "OK"
 
-@router.get("/post/recipe")
+@router.post("/post/recipe")
 def post_recipe(new_recipe: recipe, user_id: int):
     with db.engine.begin() as connection:
+        in_table = connection.execute(sqlalchemy.text("SELECT COUNT(*) FROM users WHERE user_id = :id"), {"id": user_id}).fetchone().count
+
+        if not in_table:
+            print("user id does not exist")
+            return "Recipe Post Unsuccessful"
+
         print("inserting recipe...")
-        recipe_id = connection.execute(sqlalchemy.text("INSERT INTO recipes (type, title, time_needed, author_id, complexity, is_public) VALUES (:temp_type, :temp_title, :temp_time, :temp_author, :temp_complexity, :temp_public) RETURNING recipe_id"),
-                            {"temp_type": new_recipe.type, "temp_title": new_recipe.title, "temp_time": new_recipe.time, "temp_author": user_id, "temp_complexity": new_recipe.complexity, "temp_public": new_recipe.is_public}).fetchone()[0]
+        recipe_id = connection.execute(sqlalchemy.text("""
+            INSERT INTO recipes (type, title, time_needed, author_id, complexity, is_public) 
+            VALUES (:temp_type, :temp_title, :temp_time, :temp_author, :temp_complexity, :temp_public) 
+            RETURNING recipe_id
+            """),{"temp_type": new_recipe.type, "temp_title": new_recipe.title, "temp_time": new_recipe.time, "temp_author": user_id, "temp_complexity": new_recipe.complexity, "temp_public": new_recipe.is_public}).fetchone()[0]
         
         print("inserting ingredients...")
         for n in new_recipe.ingredients:
@@ -56,7 +65,7 @@ def post_recipe(new_recipe: recipe, user_id: int):
         for n in new_recipe.tags:
             connection.execute(sqlalchemy.text("INSERT INTO tags (recipe_id, tag) VALUES (:temp_id, :temp_tag)"), {"temp_id": recipe_id, "temp_tag": n})
 
-    return "Recipe posted successfully!"
+    return {"recipe_id": recipe_id}
 
 @router.post("/get/filter")
 def get_recipe(tags: list[str] = None, recipe_type: str = None, ingredients: list[str] = None, max_time: int = None, chef_level: str = None):
@@ -191,6 +200,13 @@ def get_recipe(tags: list[str] = None, recipe_type: str = None, ingredients: lis
 def meal_plan(user_id: int):
     # beginner -> homecook -> intermediate -> chef
     with db.engine.begin() as connection:
+
+        in_table = connection.execute(sqlalchemy.text("SELECT COUNT(*) FROM users WHERE user_id = :id"), {"id": user_id}).fetchone().count
+
+        if not in_table:
+            print("user id does not exist")
+            return "Meal Plan Unsuccessful"
+
         return_list = []
         favorites = connection.execute(sqlalchemy.text(
             """

@@ -19,6 +19,14 @@ class Rating(BaseModel):
 @router.post("/post/rating")
 def post_rating(recipe_id: str, rating: int):
 
+    with db.engine.begin() as connection:
+        in_table = connection.execute(sqlalchemy.text("SELECT COUNT(*) FROM recipes WHERE recipe_id = :id"), {"id": recipe_id}).fetchone().count
+
+        if not in_table:
+            print("recipe id does not exist")
+            return "Recipe Rating Unsuccessful"
+
+
     # calculates the new rating by: (overall rating * amount of ratings + recent rating) / (amount of ratings + 1)
     recipe_rating_sql = """UPDATE recipes SET rating = 
                             ROUND((CAST(rating as numeric) * rating_count + :rating)/ (rating_count + 1), 1),
