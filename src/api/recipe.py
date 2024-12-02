@@ -211,7 +211,7 @@ def get_recipe(tags: list[str] = None, recipe_type: str = None, ingredients: lis
 
 
 
-@router.post("/post/meal_plan")
+@router.post("/explore/meal/plan")
 def meal_plan(user_id: int):
     # beginner -> homecook -> intermediate -> chef
     with db.engine.begin() as connection:
