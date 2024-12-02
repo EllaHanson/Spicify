@@ -12,14 +12,14 @@
    Response:  
    ```json
    {  
-   "user_id": "string" /* Returns a unique user_id */  
+   "user_id": "int" /* Returns a unique user_id */  
    }
    ```     
 **1.2 Login - /login/ (POST)**  
    Request:  
    ```json
    {  
-   "username": "string",  
+   "username": "int",  
    "password": "string"
    }
    ```
