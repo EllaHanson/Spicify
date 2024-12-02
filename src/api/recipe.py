@@ -40,6 +40,21 @@ def reset():
         connection.execute(sqlalchemy.text("DELETE FROM users"))
     return "OK"
 
+@router.post("/post/delete")
+def delete_recipe(recipe_id: int):
+    with db.engine.begin() as connection:
+        in_table = connection.execute(sqlalchemy.text("SELECT COUNT(*) FROM recipes WHERE recipe_id = :id"), {"id": recipe_id}).fetchone().count
+
+        if not in_table:
+            print("recipe id does not exist")
+            return "Recipe Deleteing Unsuccessful"
+        
+        connection.execute(sqlalchemy.text("DELETE FROM recipes WHERE recipe_id = :id"), {"id": recipe_id})
+        connection.execute(sqlalchemy.text("DELETE FROM ingredients WHERE recipe_id = :id"), {"id": recipe_id})
+        connection.execute(sqlalchemy.text("DELETE FROM recipe_tags WHERE recipe_id = :id"), {"id": recipe_id})
+
+    return "Successfully Deleted Recipe"
+
 @router.post("/post/recipe")
 def post_recipe(new_recipe: recipe, user_id: int):
     with db.engine.begin() as connection:

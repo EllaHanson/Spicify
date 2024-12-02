@@ -17,6 +17,21 @@ class User(BaseModel):
     email: str
     password: str
 
+@router.post("/delete/profile")
+def delete_user(user_id: int):
+    with db.engine.begin() as connection:
+        in_table = connection.execute(sqlalchemy.text("SELECT COUNT(*) FROM users WHERE user_id = :id"), {"id": user_id}).fetchone().count
+
+        if not in_table:
+            print("user id does not exist")
+            return "User Deletion Unsuccessful"
+        
+        connection.execute(sqlalchemy.text("DELETE FROM users WHERE user_id = :id"), {"id": user_id})
+        connection.execute(sqlalchemy.text("DELETE FROM user_tags WHERE user_id = :id"), {"id": user_id})
+        connection.execute(sqlalchemy.text("DELETE FROM profile_info WHERE user_id = :id"), {"id": user_id})
+
+    return "User Deletion Successful"
+
 @router.post("/post/user")
 def add_user(new_user: User):
     with db.engine.begin() as connection:
