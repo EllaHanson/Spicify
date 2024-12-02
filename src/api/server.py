@@ -5,7 +5,7 @@ from . import profile
 from . import recipe
 from . import update_profile
 from . import favorites
-from . import rating
+from . import ratings
 from . import comments
 import json
 import logging
