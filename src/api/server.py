@@ -42,7 +42,7 @@ app.include_router(profile.router)
 app.include_router(recipe.router)
 app.include_router(update_profile.router)
 app.include_router(favorites.router)
-app.include_router(rating.router)
+app.include_router(ratings.router)
 app.include_router(comments.router)
 
 
