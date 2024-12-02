@@ -47,21 +47,41 @@ def add_user(new_user: User):
 @router.post("/loggin")
 def loggin(user_id: int):
     with db.engine.begin() as connection:
+        name_in_table = connection.execute(sqlalchemy.text("SELECT COUNT(*) FROM users WHERE user_id = :check_name"), {"check_name": user_id}).fetchone().count
+
+        if not name_in_table:
+            print("user id not registered, can't loggin")
+            return "Login unseccessful"
+
         print(f"loggin for user {user_id}")
         connection.execute(sqlalchemy.text("UPDATE profile_info SET logged_in = TRUE WHERE user_id = :temp_id"), {"temp_id": user_id})
     return "Login successful!"
 
 @router.put("/profile")
-def update_profile(id: int, level: str, about_me: str, username: str, user_id: int):
+def update_profile(user_id: int, level: str = None, about_me: str = None, username: str = None):
     with db.engine.begin() as connection:
-        print(f"updating user {id} profile...") 
         in_table = connection.execute(sqlalchemy.text("SELECT COUNT(*) FROM users WHERE user_id = :id"), {"id": user_id}).fetchone().count
 
-        if in_table:
-            print(f"user id ({user_id}) not found")
+        if not in_table:
+            print(f"user id not found")
+            return "Update unsuccessful"
 
-        connection.execute(sqlalchemy.text("UPDATE profile_info SET level = :temp_level, about_me = :temp_about WHERE user_id = :temp_id"), {"temp_level": level, "temp_about": about_me, "temp_id": id})
-        connection.execute(sqlalchemy.text("UPDATE users SET username = :temp_user WHERE user_id = :userid"), {"temp_user": username, "userid": user_id})
+        print(f"updating user {user_id} profile...") 
+
+        if level is not None:
+            connection.execute(sqlalchemy.text(
+                """UPDATE profile_info SET level = :temp_level WHERE user_id = :temp_id"""), 
+                {"temp_level": level, "temp_id": user_id})
+        if about_me is not None:
+            connection.execute(sqlalchemy.text(
+                """UPDATE profile_info SET about_me = :temp_info WHERE user_id = :temp_id"""), 
+                {"temp_info": about_me, "temp_id": user_id})
+
+        if username is not None:
+            connection.execute(sqlalchemy.text(
+                """UPDATE users SET username = :temp_user WHERE user_id = :userid"""), 
+                {"temp_user": username, "userid": user_id})
+            
     return "Profile updated successfully!"
 
 @router.post("/loggout")
