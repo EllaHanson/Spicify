@@ -275,9 +275,6 @@ def meal_plan(user_id: int):
 
         random.shuffle(plan)
 
-        for n in plan:
-            print(n)
-
         breakfast_in = False
         lunch_in = False
         dinner_in = False
