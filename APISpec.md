@@ -61,7 +61,7 @@
    Response:
    ```json
    {
-   "recipe_id": "string"
+   "recipe_id": "int"
    }
    ```
 **2.3 Edit Profile - /blog/{user_id}/edit-profile/ (PUT)**  
@@ -84,7 +84,7 @@
    Request:  
    ```json
    {  
-   "user_id": "string",  
+   "user_id": "int",  
    "logged_in": "string" /* Should be set to false */
    }
    ```
@@ -119,7 +119,7 @@
    Request:  
    ```json
    {  
-   "recipe_id": "string"
+   "recipe_id": "int"
    }
    ```
    Response:  
@@ -133,7 +133,7 @@
    Request:  
    ```json
    {  
-    "recipe_id": "string",
+    "recipe_id": "int",
     "message": "string" 
    }
    ```
@@ -149,7 +149,7 @@
    Request:  
    ```json
    {  
-    "recipe_id": "string"
+    "recipe_id": "int"
     "rating": "int" 
    }
    ```
