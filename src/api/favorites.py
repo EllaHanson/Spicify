@@ -15,7 +15,7 @@ router = APIRouter(
 def add_favorite(user_id, recipe_id):
     with db.engine.begin() as connection:
         connection.execute(sqlalchemy.text("INSERT INTO favorites (user_id, recipe_id) VALUES (:user_id, :recipe_id)"), {"user_id": user_id, "recipe_id": recipe_id})
-    return "OK"
+    return "Favorite added successfully!"
 
 @router.get("/blog/favorites")
 def get_favorites(user_id):

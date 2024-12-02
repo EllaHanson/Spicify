@@ -40,7 +40,7 @@ def reset():
         connection.execute(sqlalchemy.text("DELETE FROM users"))
     return "OK"
 
-@router.post("/post/recipe")
+@router.get("/post/recipe")
 def post_recipe(new_recipe: recipe, user_id: int):
     with db.engine.begin() as connection:
         print("inserting recipe...")
@@ -56,7 +56,7 @@ def post_recipe(new_recipe: recipe, user_id: int):
         for n in new_recipe.tags:
             connection.execute(sqlalchemy.text("INSERT INTO tags (recipe_id, tag) VALUES (:temp_id, :temp_tag)"), {"temp_id": recipe_id, "temp_tag": n})
 
-    return "OK"
+    return "Recipe posted successfully!"
 
 @router.post("/get/filter")
 def get_recipe(tags: list[str] = None, recipe_type: str = None, ingredients: list[str] = None, max_time: int = None, chef_level: str = None):

@@ -96,7 +96,7 @@
    ```
 **3. Explore Recipes**  
 
-**3.1 Filter Recipes /explore/filter/ (POST)**  
+**3.1 Filter Recipes /explore/filter/ (GET)**  
    Filter for recipes based on certain preferences  
    Request:
    ```json
@@ -128,7 +128,7 @@
    "success": "boolean"
    }
    ```
-**3.3 Comment on Recipes /explore/{recipe-id}/comment/ (POST)**  
+**3.3 Comment on Recipes /explore/{recipe-id}/comments/ (POST)**  
    Comment on a recipe in the recipe feed 
    Request:  
    ```json
