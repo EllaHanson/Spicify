@@ -18,11 +18,23 @@ router = APIRouter(
 @router.put("/rating")
 def add_ratings():
     with db.engine.begin() as connection:
+<<<<<<< HEAD
         for x in range(1000):
             mod1 = random.randint(5, 15)
             temp_name = ''.join(random.choices(string.ascii_letters,k=mod1))
             temp_email = temp_name
             temp_pass = temp_name
+=======
+        for x in range(20000):
+            mod = random.randint(5, 15)
+            temp_name = ''.join(random.choices(string.ascii_letters,k=mod))
+
+            mod = random.randint(5, 15)
+            temp_email = ''.join(random.choices(string.ascii_letters,k=mod))
+
+            mod = random.randint(5, 15)
+            temp_pass = ''.join(random.choices(string.ascii_letters,k=mod))
+>>>>>>> e3b876efc3685e7df84e87d333fe9cde19d3f3a7
 
             user_id = connection.execute(sqlalchemy.text("""
                                                          INSERT INTO users (username, email, password) VALUES (:name, :e, :pass) RETURNING user_id
@@ -30,11 +42,24 @@ def add_ratings():
                                          {"name": str(temp_name), "e": str(temp_email), "pass": str(temp_pass)}).fetchone()[0]
             
             level = ["beginner", "homecook", "intermediate", "chef"]
+<<<<<<< HEAD
             mod_level = random.randint(0, 3)
             temp_level = level[mod_level]
             temp_about = ''.join(random.choices(string.ascii_letters,k=mod1))
             log = True
                 
+=======
+            mod = random.randint(0, 3)
+            temp_level = level[mod]
+            mod = random.randint(1, 50)
+            temp_about = ''.join(random.choices(string.ascii_letters,k=mod))
+            logged_in = random.randint(0,1)
+            log = False
+            if logged_in == 1:
+                log = True
+                
+
+>>>>>>> e3b876efc3685e7df84e87d333fe9cde19d3f3a7
             connection.execute(sqlalchemy.text("""
                                                INSERT INTO profile_info (user_id, level, about_me, logged_in) VALUES (:id, :l, :a, :in)
                                                """), 
