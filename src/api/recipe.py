@@ -1,6 +1,7 @@
-from fastapi import APIRouter, Depends, HTTPException, Response
+from fastapi import APIRouter, Depends, HTTPException, Response, Query
 from pydantic import BaseModel
 from . import auth
+from typing import Optional, List
 
 import sqlalchemy
 import random
@@ -27,7 +28,7 @@ class recipe(BaseModel):
     ingredients: list[ingredient]
     tags: list[str]
 
-@router.delete("/reset/tables")
+@router.delete("/delete/tables")
 def reset():
     with db.engine.begin() as connection:
         print("resetting tables...")
@@ -43,7 +44,7 @@ def reset():
         """
     return "OK"
 
-@router.delete("/delete")
+@router.delete("/delete/recipe")
 def delete_recipe(recipe_id: int):
     with db.engine.begin() as connection:
         
@@ -57,9 +58,9 @@ def delete_recipe(recipe_id: int):
         connection.execute(sqlalchemy.text("DELETE FROM ingredients WHERE recipe_id = :id"), {"id": recipe_id})
         connection.execute(sqlalchemy.text("DELETE FROM recipe_tags WHERE recipe_id = :id"), {"id": recipe_id})
 
-    return "Successfully Deleted Recipe"
+    return Response(content = "Recipe Delete Successful", status_code = 200, media_type="text/plain")
 
-@router.get("/post/recipe")
+@router.post("/post/recipe")
 def post_recipe(new_recipe: recipe, user_id: int):
     with db.engine.begin() as connection:
         in_table = connection.execute(sqlalchemy.text("SELECT COUNT(*) FROM users WHERE user_id = :id"), {"id": user_id}).fetchone().count
@@ -86,14 +87,13 @@ def post_recipe(new_recipe: recipe, user_id: int):
 
     return {"recipe_id": recipe_id}
 
-@router.get("/filter/search")
-def get_recipe(tags: list[str] = None, recipe_type: str = None, ingredients: list[str] = None, max_time: int = None, chef_level: str = None):
+@router.get("/get/recipe")
+def get_recipe(tags: Optional[List[str]] = Query(default=None), recipe_type: Optional[str] = None, ingredients: Optional[List[str]] = Query(default=None), max_time: Optional[int] = None, chef_level: Optional[str] = None):
 
     return_list = []
-    tag_count = len(tags)
-    ing_count = len(ingredients)
 
     if tags:
+        tag_count = len(tags)
         search_str = "SELECT DISTINCT recipe_id FROM tags WHERE tag IN ("
         while tags:
             temp_tag = tags.pop()
@@ -105,6 +105,7 @@ def get_recipe(tags: list[str] = None, recipe_type: str = None, ingredients: lis
     
         search_str += ") GROUP BY recipe_id HAVING COUNT(DISTINCT tag) = "
         search_str += str(tag_count)
+        search_str += " LIMIT 15"
 
         with db.engine.begin() as connection:
             tag_result = connection.execute(sqlalchemy.text(search_str)).fetchall()
@@ -117,11 +118,13 @@ def get_recipe(tags: list[str] = None, recipe_type: str = None, ingredients: lis
                     search_str += str(temp_id.recipe_id)
                     if tag_result:
                         search_str += " or "
+                search_str += " LIMIT 15"
                 recipe_tag_result = connection.execute(sqlalchemy.text(search_str)).fetchall()
     else: 
         recipe_tag_result = []
     
     if ingredients:
+        ing_count = len(ingredients)
 
         search_str = "SELECT DISTINCT recipe_id FROM ingredients WHERE name IN ("
         while ingredients:
@@ -134,6 +137,7 @@ def get_recipe(tags: list[str] = None, recipe_type: str = None, ingredients: lis
     
         search_str += ") GROUP BY recipe_id HAVING COUNT(DISTINCT name) = "
         search_str += str(ing_count)
+        search_str += " LIMIT 15"
 
         with db.engine.begin() as connection:
             ingredient_result = connection.execute(sqlalchemy.text(search_str)).fetchall()
@@ -147,13 +151,14 @@ def get_recipe(tags: list[str] = None, recipe_type: str = None, ingredients: lis
                     if ingredient_result:
                         search_str += " or "
                 recipe_ingredients_result = connection.execute(sqlalchemy.text(search_str)).fetchall()
+                search_str += " LIMIT 15"
 
     # intersect of tags results and ingredient results
-    if tag_count > 0 and ing_count > 0:
+    if tags is not None and ingredients is not None:
         recipe_middle_list = list(set(recipe_tag_result) & set(recipe_ingredients_result))
-    elif tag_count > 0:
+    elif tags is not None:
         recipe_middle_list = recipe_tag_result
-    elif ing_count > 0:
+    elif ingredients is not None:
         recipe_middle_list = recipe_ingredients_result
     else:
         recipe_middle_list = []
@@ -183,6 +188,7 @@ def get_recipe(tags: list[str] = None, recipe_type: str = None, ingredients: lis
 
 
         search_str += "and is_public = TRUE"
+        search_str += " LIMIT 15"
         with db.engine.begin() as connection:
             rest_result = connection.execute(sqlalchemy.text(search_str)).fetchall()
 
@@ -195,10 +201,11 @@ def get_recipe(tags: list[str] = None, recipe_type: str = None, ingredients: lis
                     if rest_result:
                         search_str += " or "
                 recipe_rest_result = connection.execute(sqlalchemy.text(search_str)).fetchall()
+                search_str += " LIMIT 15"
 
-    if (tag_count > 0 or ing_count > 0) and rest_count:
+    if (tags is not None or ingredients is not None) and rest_count:
         recipe_list = list(set(recipe_middle_list) & set(recipe_rest_result))
-    elif (tag_count > 0 or ing_count > 0):
+    elif (tags is not None or ingredients is not None):
         recipe_list = recipe_middle_list
     elif rest_count:
         recipe_list = recipe_rest_result
@@ -210,12 +217,11 @@ def get_recipe(tags: list[str] = None, recipe_type: str = None, ingredients: lis
         print(n.title)
         return_list.append(n.recipe_id)
 
-
-    return return_list
-
+    return {"recipes": return_list}
 
 
-@router.get("/explore/meal/plan")
+
+@router.get("/get/mealplan")
 def meal_plan(user_id: int):
     # beginner -> homecook -> intermediate -> chef
     with db.engine.begin() as connection:

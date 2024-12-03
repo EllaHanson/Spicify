@@ -25,7 +25,7 @@ def add_favorite(user_id, recipe_id):
             raise HTTPException(status_code = 400, detail = "Recipe id does not exist")
 
         connection.execute(sqlalchemy.text("INSERT INTO favorites (user_id, recipe_id) VALUES (:user_id, :recipe_id)"), {"user_id": user_id, "recipe_id": recipe_id})
-    return "Favorite added successfully!"
+    return Response(content = "Favorite Successful", status_code = 200, media_type="text/plain")
 
 @router.get("/blog/favorites")
 def get_favorites(user_id):
@@ -35,5 +35,10 @@ def get_favorites(user_id):
             print(f"user id not found")
             raise HTTPException(status_code = 400, detail = "User id does not exist")
         
-        favorites = connection.execute(sqlalchemy.text("SELECT FROM favorites WHERE user_id = :user_id"), {"user_id": user_id})
-    return favorites
+        favorites = connection.execute(sqlalchemy.text("SELECT recipe_id FROM favorites WHERE user_id = :user_id"), {"user_id": user_id}).fetchall()
+        return_list = []
+
+        for x in favorites:
+            return_list.append({"recipe_id": x.recipe_id})
+
+    return return_list

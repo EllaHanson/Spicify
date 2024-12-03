@@ -45,4 +45,4 @@ def post_rating(recipe_id: int, rating: int):
            
 
     print(f"\"{recipe_rating}\" has been given a rating of {rating} / 5")
-    return Response(status_code = 200)
+    return Response(content = "Rating Successful", status_code = 200, media_type="text/plain")

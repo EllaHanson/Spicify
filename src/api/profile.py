@@ -7,8 +7,8 @@ from src import database as db
 
 
 router = APIRouter(
-    prefix="/profile",
-    tags=["profile"],
+    prefix="/profiles",
+    tags=["profiles"],
     dependencies=[Depends(auth.get_api_key)],
 )
 
@@ -30,7 +30,7 @@ def delete_user(user_id: int):
         connection.execute(sqlalchemy.text("DELETE FROM user_tags WHERE user_id = :id"), {"id": user_id})
         connection.execute(sqlalchemy.text("DELETE FROM profile_info WHERE user_id = :id"), {"id": user_id})
 
-    return "User Deletion Successful"
+    return Response(content = "User Delete Successful", status_code = 200, media_type="text/plain")
 
 @router.post("/post/user")
 def add_user(new_user: User):
@@ -60,7 +60,7 @@ def add_user(new_user: User):
 
     return {"user_id": id}
 
-@router.put("/loggin")
+@router.put("/put/loggin")
 def loggin(user_id: int):
     with db.engine.begin() as connection:
         name_in_table = connection.execute(sqlalchemy.text("SELECT COUNT(*) FROM users WHERE user_id = :check_name"), {"check_name": user_id}).fetchone().count
@@ -71,9 +71,9 @@ def loggin(user_id: int):
 
         print(f"loggin for user {user_id}")
         connection.execute(sqlalchemy.text("UPDATE profile_info SET logged_in = TRUE WHERE user_id = :temp_id"), {"temp_id": user_id})
-    return Response(status_code = 200)
+    return Response(content = str("Loggin Successful"), status_code = 200, media_type="text/plain")
 
-@router.put("/profile")
+@router.patch("/patch/profile")
 def update_profile(user_id: int, level: str = None, about_me: str = None, username: str = None):
     with db.engine.begin() as connection:
         in_table = connection.execute(sqlalchemy.text("SELECT COUNT(*) FROM users WHERE user_id = :id"), {"id": user_id}).fetchone().count
@@ -98,9 +98,9 @@ def update_profile(user_id: int, level: str = None, about_me: str = None, userna
                 """UPDATE users SET username = :temp_user WHERE user_id = :userid"""), 
                 {"temp_user": username, "userid": user_id})
             
-    return Response(status_code = 200)
+    return Response(content = "Profile Update Successful", status_code = 200, media_type="text/plain")
 
-@router.put("/loggout")
+@router.put("/put/loggout")
 def loggout(user_id: int):
     with db.engine.begin() as connection:
         in_table = connection.execute(sqlalchemy.text("SELECT COUNT(*) FROM users WHERE user_id = :id"), {"id": user_id}).fetchone().count
@@ -110,5 +110,5 @@ def loggout(user_id: int):
         
         print(f"loggout for user {user_id}")
         connection.execute(sqlalchemy.text("UPDATE profile_info SET logged_in = FALSE WHERE user_id = :temp_id"), {"temp_id": user_id})
-    return Response(content={"message": "Logout successful!"}, status_code=200)
+    return Response(content = str("Loggout Successful"), status_code = 200, media_type="text/plain")
 

@@ -18,8 +18,7 @@ router = APIRouter(
 @router.put("/rating")
 def add_ratings():
     with db.engine.begin() as connection:
-        for x in range(10000):
-
+        for x in range(20000):
             mod = random.randint(5, 15)
             temp_name = ''.join(random.choices(string.ascii_letters,k=mod))
 
@@ -56,7 +55,7 @@ def add_ratings():
 @router.post("/populate/profile")
 def add_lines():
     with db.engine.begin() as connection:
-        for num in range(5):
+        for num in range(500):
             mod = random.randint(5, 15)
             temp_name = ''.join(random.choices(string.ascii_letters,k=mod))
 
