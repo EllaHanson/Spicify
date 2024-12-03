@@ -89,7 +89,7 @@ def post_recipe(new_recipe: recipe, user_id: int):
 
 @router.get("/get/recipe")
 def get_recipe(tags: Optional[List[str]] = Query(default=None), recipe_type: Optional[str] = None, ingredients: Optional[List[str]] = Query(default=None), max_time: Optional[int] = None, chef_level: Optional[str] = None):
-
+    print ("testing")
     return_list = []
     tag_result = []
     ingredient_result = []
