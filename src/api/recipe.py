@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException, Response
 from pydantic import BaseModel
 from . import auth
 
@@ -27,10 +27,11 @@ class recipe(BaseModel):
     ingredients: list[ingredient]
     tags: list[str]
 
-@router.post("/reset/tables")
+@router.delete("/reset/tables")
 def reset():
     with db.engine.begin() as connection:
         print("resetting tables...")
+        """
         connection.execute(sqlalchemy.text("DELETE FROM comments"))
         connection.execute(sqlalchemy.text("DELETE FROM favorites"))
         connection.execute(sqlalchemy.text("DELETE FROM ingredients"))
@@ -39,31 +40,33 @@ def reset():
         connection.execute(sqlalchemy.text("DELETE FROM user_tags"))
         connection.execute(sqlalchemy.text("DELETE FROM recipe_tags"))
         connection.execute(sqlalchemy.text("DELETE FROM users"))
+        """
     return "OK"
 
-@router.post("/post/delete")
+@router.delete("/delete")
 def delete_recipe(recipe_id: int):
     with db.engine.begin() as connection:
+        
         in_table = connection.execute(sqlalchemy.text("SELECT COUNT(*) FROM recipes WHERE recipe_id = :id"), {"id": recipe_id}).fetchone().count
 
         if not in_table:
             print("recipe id does not exist")
-            return "Recipe Deleteing Unsuccessful"
-        
+            raise HTTPException(status_code = 400, detail = "Recipe id does not exist")
+                
         connection.execute(sqlalchemy.text("DELETE FROM recipes WHERE recipe_id = :id"), {"id": recipe_id})
         connection.execute(sqlalchemy.text("DELETE FROM ingredients WHERE recipe_id = :id"), {"id": recipe_id})
         connection.execute(sqlalchemy.text("DELETE FROM recipe_tags WHERE recipe_id = :id"), {"id": recipe_id})
 
     return "Successfully Deleted Recipe"
 
-@router.post("/post/recipe")
+@router.get("/post/recipe")
 def post_recipe(new_recipe: recipe, user_id: int):
     with db.engine.begin() as connection:
         in_table = connection.execute(sqlalchemy.text("SELECT COUNT(*) FROM users WHERE user_id = :id"), {"id": user_id}).fetchone().count
 
         if not in_table:
             print("user id does not exist")
-            return "Recipe Post Unsuccessful"
+            raise HTTPException(status_code = 400, detail = "User id does not exist")
 
         print("inserting recipe...")
         recipe_id = connection.execute(sqlalchemy.text("""
@@ -83,7 +86,7 @@ def post_recipe(new_recipe: recipe, user_id: int):
 
     return {"recipe_id": recipe_id}
 
-@router.post("/get/filter")
+@router.get("/filter/search")
 def get_recipe(tags: list[str] = None, recipe_type: str = None, ingredients: list[str] = None, max_time: int = None, chef_level: str = None):
 
     return_list = []
@@ -212,7 +215,7 @@ def get_recipe(tags: list[str] = None, recipe_type: str = None, ingredients: lis
 
 
 
-@router.post("/explore/meal/plan")
+@router.get("/explore/meal/plan")
 def meal_plan(user_id: int):
     # beginner -> homecook -> intermediate -> chef
     with db.engine.begin() as connection:
@@ -221,7 +224,7 @@ def meal_plan(user_id: int):
 
         if not in_table:
             print("user id does not exist")
-            return "Meal Plan Unsuccessful"
+            raise HTTPException(status_code = 400, detail = "User id does not exist")
 
         return_list = []
         favorites = connection.execute(sqlalchemy.text(

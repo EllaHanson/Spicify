@@ -15,11 +15,48 @@ router = APIRouter(
     dependencies=[Depends(auth.get_api_key)],
 )
 
+@router.put("/rating")
+def add_ratings():
+    with db.engine.begin() as connection:
+        for x in range(10000):
+
+            mod = random.randint(5, 15)
+            temp_name = ''.join(random.choices(string.ascii_letters,k=mod))
+
+            mod = random.randint(5, 15)
+            temp_email = ''.join(random.choices(string.ascii_letters,k=mod))
+
+            mod = random.randint(5, 15)
+            temp_pass = ''.join(random.choices(string.ascii_letters,k=mod))
+
+            user_id = connection.execute(sqlalchemy.text("""
+                                                         INSERT INTO users (username, email, password) VALUES (:name, :e, :pass) RETURNING user_id
+                                                         """), 
+                                         {"name": str(temp_name), "e": str(temp_email), "pass": str(temp_pass)}).fetchone()[0]
+            
+            level = ["beginner", "homecook", "intermediate", "chef"]
+            mod = random.randint(0, 3)
+            temp_level = level[mod]
+            mod = random.randint(1, 50)
+            temp_about = ''.join(random.choices(string.ascii_letters,k=mod))
+            logged_in = random.randint(0,1)
+            log = False
+            if logged_in == 1:
+                log = True
+                
+
+            connection.execute(sqlalchemy.text("""
+                                               INSERT INTO profile_info (user_id, level, about_me, logged_in) VALUES (:id, :l, :a, :in)
+                                               """), 
+                               {'id': user_id,'l': temp_level, 'a': temp_about, 'in': log})
+        
+
+
 
 @router.post("/populate/profile")
 def add_lines():
     with db.engine.begin() as connection:
-        for num in range(500):
+        for num in range(5):
             mod = random.randint(5, 15)
             temp_name = ''.join(random.choices(string.ascii_letters,k=mod))
 
@@ -69,10 +106,13 @@ def add_lines():
 
                 temp_comp = level[int(random.randint(0, 3))]
 
+                rate = random.randint(0, 5)
+                r_count = random.randint(0, 1000)
+
                 recipe_id = connection.execute(sqlalchemy.text("""
-                        INSERT INTO recipes (type, title, time_needed, author_id, complexity, is_public)
-                        VALUES (:type, :name, :time, :id, :comp, :pub) RETURNING recipe_id
-                        """), {"type": temp_type, "name": temp_name, "id": user_id, "time": temp_time, "comp": temp_comp, "pub": True}).fetchone()[0]
+                        INSERT INTO recipes (type, title, time_needed, author_id, complexity, is_public, rating, rating_count)
+                        VALUES (:type, :name, :time, :id, :comp, :pub, :rating, :rating_c) RETURNING recipe_id
+                        """), {"type": temp_type, "name": temp_name, "id": user_id, "time": temp_time, "comp": temp_comp, "pub": True, "rating": rate, "rating_c": r_count}).fetchone()[0]
                 
                 count_i = int(random.randint(1, 10))
                 ingredients = ["egg", "peanut butter", "flour", "sugar", "chocolate", "honey", "olive oil", 
