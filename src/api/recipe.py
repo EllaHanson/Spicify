@@ -36,7 +36,8 @@ def reset():
         connection.execute(sqlalchemy.text("DELETE FROM ingredients"))
         connection.execute(sqlalchemy.text("DELETE FROM profile_info"))
         connection.execute(sqlalchemy.text("DELETE FROM recipes"))
-        connection.execute(sqlalchemy.text("DELETE FROM tags"))
+        connection.execute(sqlalchemy.text("DELETE FROM user_tags"))
+        connection.execute(sqlalchemy.text("DELETE FROM recipe_tags"))
         connection.execute(sqlalchemy.text("DELETE FROM users"))
     return "OK"
 
