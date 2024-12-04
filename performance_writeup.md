@@ -1,5 +1,6 @@
 # 1. Fake Data Modeling
 
+## The file used to make the million fake rows 
 https://github.com/EllaHanson/Spicify/blob/main/src/api/populate.py
 
 ## Final Rows
