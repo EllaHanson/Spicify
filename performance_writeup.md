@@ -1,4 +1,4 @@
-# Fake Data Modeling
+# 1. Fake Data Modeling
 
 https://github.com/EllaHanson/Spicify/blob/main/src/api/populate.py
 
@@ -31,7 +31,7 @@ This many users should use our service because it is the best out there. It shou
 Total rows: 2,678,655
 A bit more than a million rows.
 
-# Performance results of hitting endpoints
+# 2. Performance results of hitting endpoints
 
 **Average execution time:**
 
@@ -59,7 +59,7 @@ A bit more than a million rows.
 
 /rating/post/rating - 96.25 ms
 
-# Performance tuning
+# 3. Performance tuning
 
 ## /recipe/delete/recipe
 
