@@ -61,7 +61,7 @@ Total rows: 2,678,655
 
 # 3. Performance tuning
 
-## /recipe/delete/recipe
+## 1.) /recipe/delete/recipe
 
 ### EXPLAIN SELECT COUNT(*) FROM recipes WHERE recipe_id = :id
 ```
@@ -109,7 +109,7 @@ The cost is high as well here for similar reasons. An index should be placed on 
 ```
 This query has also improved in the manner that I expected.
 
-## /recipe/get/recipe
+## 2.) /recipe/get/recipe
 
 ### EXPLAIN SELECT DISTINCT recipe_id FROM recipe_tags WHERE tag IN (" + tags_param + ") GROUP BY recipe_id HAVING COUNT(DISTINCT tag) = :tag_count LIMIT 15
 ```
@@ -178,7 +178,7 @@ It is costing a lot to scan recipes. It should be indexing on time_needed, type,
 ```
 It is costing a lot less now.
 
-## /favorites/explore/favorites
+## 3.) /favorites/explore/favorites
 
 ### EXPLAIN SELECT COUNT(*) FROM users WHERE user_id = :id
 
