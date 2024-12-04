@@ -179,7 +179,50 @@ def get_recipe(tags: Optional[List[str]] = Query(default=None), recipe_type: Opt
 
     return {"recipes": recipe_set}
 
+@router.get("/get/print/recipe")
+def print_recipe(recipe_id: int):
 
+    recipe_dict = {}
+    tags_list = []
+    ing_list = []
+
+    with db.engine.begin() as connection:
+        recipe = connection.execute(sqlalchemy.text("""SELECT r.type, r.title, r.time_needed, u.username, r.complexity, r.rating, r.rating_count
+                                                        FROM recipes r
+                                                        JOIN users u ON r.author_id = u.user_id
+                                                        WHERE (r.recipe_id = :recipe_id) AND (r.author_id = u.user_id)"""), {"recipe_id": recipe_id}).fetchall()
+
+        ingredients = connection.execute(sqlalchemy.text("""SELECT CONCAT(amount, ' ', measurement_type, ' ', name) AS ing
+                                                            FROM ingredients
+                                                            WHERE recipe_id = :recipe_id"""), {"recipe_id": recipe_id}).fetchall()
+        
+        tags = connection.execute(sqlalchemy.text("""SELECT tag
+                                                     FROM recipe_tags
+                                                     WHERE recipe_id = :recipe_id"""), {"recipe_id": recipe_id}).fetchall()
+        
+    
+    if recipe:
+        recipe_dict['Title'] = recipe[0].title
+        recipe_dict['Type'] = recipe[0].type
+        recipe_dict['Time Needed'] = recipe[0].time_needed
+        recipe_dict['Author'] = recipe[0].username
+        recipe_dict['Complexity'] = recipe[0].complexity
+        recipe_dict['Rating'] = recipe[0].rating
+        recipe_dict['Rating Count'] = recipe[0].rating_count
+
+    if ingredients:
+        for i in ingredients:
+            ing_list.append({i.ing})
+
+    recipe_dict['ingredients'] = ing_list
+
+    if tags:
+        for t in tags:
+            tags_list.append({t.tag})
+
+    recipe_dict['tags'] = tags_list
+
+    return {"Recipe": recipe_dict}
 
 @router.get("/get/mealplan")
 def meal_plan(user_id: int):
