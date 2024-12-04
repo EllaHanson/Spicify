@@ -6,28 +6,44 @@ https://github.com/EllaHanson/Spicify/blob/main/src/api/populate.py
 ## Final Rows
 
 Comments: 26,006
+
 It makes sense that users would be able to make multiple comments.
 
+
 Favorites: 25,979
+
 It makes sense that users would favorite great recipes, and some recipes would not be favorited at all because they may be nasty.
 
+
 Ingredients: 288,527
+
 It should scale this way because recipes use all sorts of ingredients. It takes different ingredients to make a pumpkin pie compared to a stuffed turkey.
 
+
 Profile_info: 1,072,617
+
 It should match the number of users, which it does.
 
+
 Recipe_tags: 78,682
+
 It scales this way because a recipe can have multiple tags. For example, eggs can have the tags of healthy and high protein.
 
+
 Recipes: 52,394
+
 It makes sense that users would make multiple recipes for different purposes instead of just one. But not every user would make one and simply follow an already made recipe.
 
+
 User_tags: 61,833
+
 A user should be able to pick multiple tags. For example, a user may be vegan and wanting high protein. But not every user will care to pick one.
 
+
 Users: 1,072,617
+
 This many users should use our service because it is the best out there. It should also match the number of profile infos, which it does.
+
 
 Total rows: 2,678,655
 
