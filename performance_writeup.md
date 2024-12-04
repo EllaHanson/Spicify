@@ -30,7 +30,6 @@ Users: 1,072,617
 This many users should use our service because it is the best out there. It should also match the number of profile infos, which it does.
 
 Total rows: 2,678,655
-A bit more than a million rows.
 
 # 2. Performance results of hitting endpoints
 
