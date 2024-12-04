@@ -61,17 +61,23 @@ def add_user(new_user: User):
     return {"user_id": id}
 
 @router.put("/put/loggin")
-def loggin(user_id: int):
+def loggin(user_id: int, password: str):
     with db.engine.begin() as connection:
         name_in_table = connection.execute(sqlalchemy.text("SELECT COUNT(*) FROM users WHERE user_id = :check_name"), {"check_name": user_id}).fetchone().count
 
         if not name_in_table:
             print("user id not registered, can't loggin")
             raise HTTPException(status_code = 400, detail = "User id does not exist")
-
-        print(f"loggin for user {user_id}")
-        connection.execute(sqlalchemy.text("UPDATE profile_info SET logged_in = TRUE WHERE user_id = :temp_id"), {"temp_id": user_id})
-    return Response(content = str("Loggin Successful"), status_code = 200, media_type="text/plain")
+        
+        table_password = connection.execute(sqlalchemy.text("SELECT password FROM users WHERE user_id = :id"), {"id": user_id}).fetchone().password
+        
+        if table_password == password:
+            print(f"loggin for user {user_id}")
+            connection.execute(sqlalchemy.text("UPDATE profile_info SET logged_in = TRUE WHERE user_id = :temp_id"), {"temp_id": user_id})
+            return Response(content = str("Loggin Successful"), status_code = 200, media_type="text/plain")
+        else:
+            print("Incorrect Password")
+            raise HTTPException(status_code = 400, detail = "Incorrect Password")
 
 @router.patch("/patch/profile")
 def update_profile(user_id: int, level: str = None, about_me: str = None, username: str = None):
@@ -111,4 +117,4 @@ def loggout(user_id: int):
         print(f"loggout for user {user_id}")
         connection.execute(sqlalchemy.text("UPDATE profile_info SET logged_in = FALSE WHERE user_id = :temp_id"), {"temp_id": user_id})
     return Response(content = str("Loggout Successful"), status_code = 200, media_type="text/plain")
-
+ 

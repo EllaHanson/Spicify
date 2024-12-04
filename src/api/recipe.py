@@ -83,13 +83,12 @@ def post_recipe(new_recipe: recipe, user_id: int):
             
         print("inserting tags...")
         for n in new_recipe.tags:
-            connection.execute(sqlalchemy.text("INSERT INTO tags (recipe_id, tag) VALUES (:temp_id, :temp_tag)"), {"temp_id": recipe_id, "temp_tag": n})
+            connection.execute(sqlalchemy.text("INSERT INTO recipe_tags (recipe_id, tag) VALUES (:temp_id, :temp_tag)"), {"temp_id": recipe_id, "temp_tag": n})
 
     return {"recipe_id": recipe_id}
 
 @router.get("/get/recipe")
 def get_recipe(tags: Optional[List[str]] = Query(default=None), recipe_type: Optional[str] = None, ingredients: Optional[List[str]] = Query(default=None), max_time: Optional[int] = None, chef_level: Optional[str] = None):
-    print ("testing")
     return_list = []
     tag_result = []
     ingredient_result = []
@@ -106,7 +105,7 @@ def get_recipe(tags: Optional[List[str]] = Query(default=None), recipe_type: Opt
             if i < len(tags) - 1:
                 tags_param = tags_param + ", "
 
-        search_str = "SELECT DISTINCT recipe_id FROM recipe_tags WHERE tag IN (" + tags_param + ") GROUP BY recipe_id HAVING COUNT(DISTINCT tag) = :tag_count LIMIT 15"
+        search_str = "SELECT DISTINCT recipe_id FROM recipe_tags WHERE tag IN (" + tags_param + ") GROUP BY recipe_id HAVING COUNT(DISTINCT tag) = :tag_count"
 
         with db.engine.begin() as connection:
             tag_result = connection.execute(sqlalchemy.text(search_str), tags_dict).fetchall()
@@ -123,20 +122,28 @@ def get_recipe(tags: Optional[List[str]] = Query(default=None), recipe_type: Opt
             if i < len(ingredients) - 1:
                 ing_param = ing_param + ", "
         
-        search_str = "SELECT DISTINCT recipe_id FROM ingredients WHERE name IN (" + ing_param + ") GROUP BY recipe_id HAVING COUNT(DISTINCT ingredient_id) = :ing_count LIMIT 15"
+        search_str = "SELECT DISTINCT recipe_id FROM ingredients WHERE name IN (" + ing_param + ") GROUP BY recipe_id HAVING COUNT(DISTINCT ingredient_id) = :ing_count"
         print (search_str)
         print (ing_dict)
         with db.engine.begin() as connection:
             ingredient_result = connection.execute(sqlalchemy.text(search_str), ing_dict).fetchall()
     
     recipe_set = set()
-
-    print(ingredient_result)
+    tag_set = set()
+    ing_set = set()
 
     for recipe in tag_result:
-        recipe_set.add(recipe.recipe_id)
+        tag_set.add(recipe.recipe_id)
     for recipe in ingredient_result:
-        recipe_set.add(recipe.recipe_id)
+        ing_set.add(recipe.recipe_id)
+    
+    if tags is not None and ingredients is not None:
+        recipe_set = tag_set & ing_set
+    elif tags is not None:
+        recipe_set = tag_set
+    elif ingredients is not None:
+        recipe_set = ing_set
+        
 
     if recipe_type is not None or max_time is not None or chef_level is not None:
         misc_dict = {}
@@ -156,14 +163,19 @@ def get_recipe(tags: Optional[List[str]] = Query(default=None), recipe_type: Opt
         if chef_level:
             search_str += "complexity = :level "
             misc_dict['level'] = chef_level
-        search_str += "LIMIT 15"
+        #search_str += "LIMIT 15"
 
         with db.engine.begin() as connection:
             misc_result = connection.execute(sqlalchemy.text(search_str), misc_dict).fetchall()
+            misc_set = set()
 
             for recipe in misc_result:
-                recipe_set.add(recipe.recipe_id)
-            print(recipe_set)
+                misc_set.add(recipe.recipe_id)
+            
+        if tags is not None or ingredients is not None:
+            recipe_set = recipe_set & misc_set
+        else:
+            recipe_set = misc_set
 
     return {"recipes": recipe_set}
 
@@ -194,6 +206,7 @@ def meal_plan(user_id: int):
             ORDER BY count(*) desc
             """
             ), {"id": user_id}).fetchall()
+        fav_count = len(favorites)
         
         user_tags = connection.execute(sqlalchemy.text(
             """
@@ -201,6 +214,7 @@ def meal_plan(user_id: int):
             WHERE user_id = :id
             """
             ), {"id": user_id}).fetchall()
+        tag_count = len(user_tags)
         
         if not favorites:
             print("No favorites! Favorite some recipes to get a meal plan")
@@ -213,32 +227,33 @@ def meal_plan(user_id: int):
         while user_tags:
             TagList.append(user_tags.pop()[0])
         
+        recipes1 = []
+        if fav_count > 0:
+            recipes1 = connection.execute(sqlalchemy.text(
+                """
+                SELECT 
+                    recipes.recipe_id AS recipe_id,
+                    recipes.type AS MealType,
+                    recipes.title AS RecipeName
+                FROM recipes
+                JOIN ingredients ON recipes.recipe_id = ingredients.recipe_id
+                WHERE ingredients.name IN :list
+                """
+                ), {"list": tuple(IngList)}).fetchall()
         
-        recipes1 = connection.execute(sqlalchemy.text(
-            """
-            SELECT 
-                recipes.recipe_id AS recipe_id,
-                recipes.type AS MealType,
-                recipes.title AS RecipeName
-            FROM recipes
-            JOIN ingredients ON recipes.recipe_id = ingredients.recipe_id
-            WHERE ingredients.name IN :list
-            """
-            ), {"list": tuple(IngList)}
-            ).fetchall()
-        
-        recipes2 = connection.execute(sqlalchemy.text(
-            """
-            SELECT 
-                recipes.recipe_id AS recipe_id,
-                recipes.type AS MealType,
-                recipes.title AS RecipeName
-            FROM recipes
-            JOIN tags ON recipes.recipe_id = tags.recipe_id
-            WHERE tags.tag IN :list
-            """
-            ), {"list": tuple(TagList)}
-            ).fetchall()
+        recipes2 = []
+        if tag_count > 0:
+            recipes2 = connection.execute(sqlalchemy.text(
+                """
+                SELECT 
+                    recipes.recipe_id AS recipe_id,
+                    recipes.type AS MealType,
+                    recipes.title AS RecipeName
+                FROM recipes
+                JOIN tags ON recipes.recipe_id = tags.recipe_id
+                WHERE tags.tag IN :list
+                """
+                ), {"list": tuple(TagList)}).fetchall()
         
         recipe_set = set({})
         for n in recipes1:
