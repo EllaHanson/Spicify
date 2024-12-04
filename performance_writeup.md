@@ -86,7 +86,7 @@ This query is analogous to the previous one for the same reason. No need for ind
 ('        Filter: (recipe_id = 72434)',)
 ```
 The cost is unbelievably high. It seems that it is scanning the entire ingredients table. An index should be placed on recipe_id.
-CREATE INDEX indx_ingr ON ingredients (recipe_id)
+### CREATE INDEX indx_ingr ON ingredients (recipe_id)
 ```
 ('Delete on ingredients  (cost=0.42..2.75 rows=0 width=0)',)
 ('  ->  Index Scan using indx_ingr on ingredients  (cost=0.42..2.75 rows=7 width=6)',)
@@ -101,7 +101,7 @@ This query has had the performance improvement I expected.
 ('        Filter: (recipe_id = 72434)',)
 ```
 The cost is high as well here for similar reasons. An index should be placed on recipe_id.
-CREATE INDEX indx_r_tags ON recipe_tags (recipe_id)
+### CREATE INDEX indx_r_tags ON recipe_tags (recipe_id)
 ```
 ('Delete on recipe_tags  (cost=0.29..2.53 rows=0 width=0)',)
 ('  ->  Index Scan using indx_r_tags on recipe_tags  (cost=0.29..2.53 rows=2 width=6)',)
@@ -124,6 +124,7 @@ This query has also improved in the manner that I expected.
 ("                          Filter: (tag = 'healthy'::text)",)
 ```
 This query is inefficient. There should be an index place on recipe_id and tag.
+### CREATE INDEX indx_r_tag ON recipe_tags (recipe_id, tag)
 ```
 ('Limit  (cost=0.42..630.46 rows=15 width=4)',)
 ('  ->  Unique  (cost=0.42..1134.49 rows=27 width=4)',)
@@ -169,7 +170,7 @@ Compared to what it once was, it's pretty good.
 ```
 It is costing a lot to scan recipes. It should be indexing on time_needed, type, and complexity.
 
-CREATE INDEX recipe_filter ON recipes (type, complexity, time_needed)
+### CREATE INDEX recipe_filter ON recipes (type, complexity, time_needed)
 ```
 ('Limit  (cost=0.29..5.76 rows=15 width=8)',)
 ('  ->  Index Scan using recipe_filter on recipes  (cost=0.29..1184.19 rows=3244 width=8)',)
