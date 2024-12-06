@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException, Response, Query
 from pydantic import BaseModel
 from . import auth
-from typing import Optional, List
+from typing import Optional, List, Literal
 
 import sqlalchemy
 import random
@@ -62,7 +62,7 @@ def delete_recipe(recipe_id: int):
     return Response(content = "Recipe Delete Successful", status_code = 200, media_type="text/plain")
 
 @router.post("/post/recipe")
-def post_recipe(new_recipe: recipe, user_id: int):
+def post_recipe(user_id: int, title: str, type: Literal["Breakfast", "Lunch", "Dinner", "Dessert", "Snack"], time: int, complexity: Literal["Beginner", "Homecook", "Intermetiate", "Chef"], is_public: bool, ingredients: list[ingredient], tags: Optional[List[str]] = Query(default=None)):
     with db.engine.begin() as connection:
         in_table = connection.execute(sqlalchemy.text("SELECT COUNT(*) FROM users WHERE user_id = :id"), {"id": user_id}).fetchone().count
 
@@ -75,15 +75,15 @@ def post_recipe(new_recipe: recipe, user_id: int):
             INSERT INTO recipes (type, title, time_needed, author_id, complexity, is_public) 
             VALUES (:temp_type, :temp_title, :temp_time, :temp_author, :temp_complexity, :temp_public) 
             RETURNING recipe_id
-            """),{"temp_type": new_recipe.type, "temp_title": new_recipe.title, "temp_time": new_recipe.time, "temp_author": user_id, "temp_complexity": new_recipe.complexity, "temp_public": new_recipe.is_public}).fetchone()[0]
+            """),{"temp_type": type, "temp_title": title, "temp_time": time, "temp_author": user_id, "temp_complexity": complexity, "temp_public": is_public}).fetchone()[0]
         
         print("inserting ingredients...")
-        for n in new_recipe.ingredients:
+        for n in ingredients:
             connection.execute(sqlalchemy.text("INSERT INTO ingredients (recipe_id, name, measurement_type, amount) VALUES (:temp_id, :temp_name, :temp_type, :temp_amount)"),
                             {"temp_id": recipe_id, "temp_name": n.name, "temp_type": n.measurement_type, "temp_amount": n.measurement_amount})
             
         print("inserting tags...")
-        for n in new_recipe.tags:
+        for n in tags:
             connection.execute(sqlalchemy.text("INSERT INTO recipe_tags (recipe_id, tag) VALUES (:temp_id, :temp_tag)"), {"temp_id": recipe_id, "temp_tag": n})
 
     return {"recipe_id": recipe_id}
@@ -294,8 +294,8 @@ def meal_plan(user_id: int):
                     recipes.type AS MealType,
                     recipes.title AS RecipeName
                 FROM recipes
-                JOIN tags ON recipes.recipe_id = tags.recipe_id
-                WHERE tags.tag IN :list
+                JOIN recipe_tags ON recipes.recipe_id = recipe_tags.recipe_id
+                WHERE recipe_tags.tag IN :list
                 """
                 ), {"list": tuple(TagList)}).fetchall()
         
@@ -322,6 +322,7 @@ def meal_plan(user_id: int):
         print("Recipe Options:")
 
         random.shuffle(plan)
+        print(plan)
 
         breakfast_in = False
         lunch_in = False
@@ -329,16 +330,17 @@ def meal_plan(user_id: int):
         dessert_in = False
 
         for n in plan:
-            if n.type == 'breakfast' and breakfast_in == False:
+            type = n.type.lower()
+            if type == 'breakfast' and breakfast_in == False:
                 breakfast_in = True
                 breakfast = {"Meal": 'Breakfast', "RecipeName": n.title, "Id": n.recipe_id}
-            if n.type == 'lunch' and lunch_in == False:
+            if type == 'lunch' and lunch_in == False:
                 lunch_in = True
                 lunch = {"Meal": 'Lunch', "RecipeName": n.title, "Id": n.recipe_id}
-            if n.type == 'Dinner' and dinner_in == False:
+            if type == 'dinner' and dinner_in == False:
                 dinner_in = True
                 dinner = {"Meal": 'Dinner', "RecipeName": n.title, "Id": n.recipe_id}
-            if n.type == 'Dessert' and dessert_in == False:
+            if type == 'dessert' and dessert_in == False:
                 dessert_in = True
                 dessert = {"Meal": 'Dessert', "RecipeName": n.title, "Id": n.recipe_id}
             
@@ -355,7 +357,7 @@ def meal_plan(user_id: int):
         if dinner_in:
             return_list.append(dinner)
         else:
-            return_list.append({"Meal": 'Lunch', "RecipeName": 'no dinner based favorites and tags', "Id": -1})
+            return_list.append({"Meal": 'Dinner', "RecipeName": 'no dinner based favorites and tags', "Id": -1})
         
         if dessert_in:
             return_list.append(dessert)

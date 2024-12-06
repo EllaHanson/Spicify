@@ -35,10 +35,15 @@ def get_favorites(user_id):
             print(f"user id not found")
             raise HTTPException(status_code = 400, detail = "User id does not exist")
         
-        favorites = connection.execute(sqlalchemy.text("SELECT recipe_id FROM favorites WHERE user_id = :user_id"), {"user_id": user_id}).fetchall()
+        favorites = connection.execute(sqlalchemy.text("""
+                    SELECT title, recipes.recipe_id 
+                    FROM favorites 
+                    JOIN recipes ON favorites.recipe_id = recipes.recipe_id
+                    WHERE user_id = :user_id
+                    """), {"user_id": user_id}).fetchall()
         return_list = []
 
         for x in favorites:
-            return_list.append({"recipe_id": x.recipe_id})
+            return_list.append({"recipe_name": x.title, "recipe_id": x.recipe_id})
 
     return return_list

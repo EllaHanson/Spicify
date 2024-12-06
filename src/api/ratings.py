@@ -41,8 +41,15 @@ def post_rating(recipe_id: int, rating: int):
         # Checks if recipe id exists
         if not recipe_rating:
                 return HTTPException(status_code = 400, detail = "Recipe id does not exist!")
-        
-           
 
     print(f"\"{recipe_rating}\" has been given a rating of {rating} / 5")
     return Response(content = "Rating Successful", status_code = 200, media_type="text/plain")
+
+
+@router.get("/get/rating")
+def get_rating(recipe_id: int):
+    with db.engine.begin() as connection:
+        recipe_rating = connection.execute(sqlalchemy.text("SELECT title, rating FROM recipes WHERE recipe_id = :recipe_id"), 
+                                            {"recipe_id": recipe_id}).fetchone()
+        
+        return {"Recipe": recipe_rating.title, "Rating": round(recipe_rating.rating, 2)}
