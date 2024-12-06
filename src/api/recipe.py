@@ -42,6 +42,7 @@ def reset():
         connection.execute(sqlalchemy.text("DELETE FROM recipe_tags"))
         connection.execute(sqlalchemy.text("DELETE FROM users"))
         """
+        
     return "OK"
 
 @router.delete("/delete/recipe")
